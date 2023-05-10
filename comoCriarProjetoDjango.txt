@@ -1,0 +1,21 @@
+criar projeto django...
+
+1-criar venv
+
+2-instalar django
+
+3-instalar framework(PIP INSTALL DJANGORESTFRAMEWORK)
+
+4-django-admin startproject (nome projeto) .
+
+5-py manage.py startapp (nome do app)
+
+6-ir em settings em "installedapps" e colocar "rest_framework", mais o nome da sua aplicação (nome aplicação)
+
+7-py manage.py makemigrations
+
+8-py manage.py migrate
+
+9-py manage.py createsuperuser
+
+9-py manage.py runserver
