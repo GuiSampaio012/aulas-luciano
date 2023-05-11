@@ -50,7 +50,7 @@ class Contas(models.Model):
     numero = models.CharField(max_length=6, unique=True)
     ativa = models.CharField(max_length=1, choices=ATIVA_CHOICES, default=ATIVA)
     senha = models.CharField(max_length=4)
-    limite = models.DecimalField(validators=[MinValueValidator(1,message='O limite deve ser maior ou igual que 1 real'),MaxValueValidator(1000)], max_digits=10, decimal_places=2)
+    limite = models.IntegerField()
     # preco = models.DecimalField(validators=[MinValueValidator(1,message='O preço deve ser igual ou maior que 1 real'),MaxValueValidator(1000)], max_digits=6, decimal_places=2)
     saldo = models.IntegerField()
     

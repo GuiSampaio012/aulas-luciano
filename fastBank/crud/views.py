@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView 
 from django.contrib.auth.hashers import make_password
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import AccessToken
 import random
 
 class ListarClientes(ListCreateAPIView):
@@ -34,8 +36,10 @@ class ListarContas(ListCreateAPIView):
         filtro = Clientes.objects.get(pk=dados['clienteConta'])
         criar = Contas.objects.create(clienteConta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
         # estava usando "= make_password" para criptografar a senha
-        criar.save()
-        serializer = ContasSerializer(criar)
+        serializer = ContasSerializer(Contas, criar)
+        if serializer.is_valid():
+            criar.save()
+        # serializer = ContasSerializer(criar)
         return Response(serializer.data)
             
         
@@ -45,10 +49,36 @@ class DetalharContas(RetrieveUpdateDestroyAPIView):
     serializer_class = ContasSerializer
 
 class ListarEndereco(ListCreateAPIView):
+    permission_classes = (IsAuthenticated, )
     queryset = Endereco.objects.all()
     serializer_class = EnderecoSerializer
+
+    def list(self, request, *args, **kwargs):
+        #QUEM FOI O AUTOR DO REQUEST ???
+        token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+        print(token)
+        dados = AccessToken(token)
+        usuario = dados['user_id']
+        print(usuario)
+        listaEndereco = Endereco.objects.filter(clienteEndereco_id=usuario)
+        print(listaEndereco)
+
+        for i in listaEndereco:
+            print("entrou")
+            print(i.rua)
+
+        # COM BASE NO ID DO USUARIO QUE FEZ A REQUESIÇÃO
+        # INSERIR DADOS EM TABELAS, FAZER CONSULTAS (OBJECTS.)
+
+        return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        # dados = request.data
+        # criar = Contato.objects.create("variavel" = dados["variavel"])
+        return super().create(request, *args, **kwargs)
        
 class DetalharEndereco(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated, )
     queryset = Endereco.objects.all()
     serializer_class = EnderecoSerializer 
 

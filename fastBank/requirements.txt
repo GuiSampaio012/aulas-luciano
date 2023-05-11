@@ -4,7 +4,7 @@ bcrypt==4.0.1
 cad==1.1.2
 certifi==2022.12.7
 cffi==1.15.1
-charset-normalizer==3.0.1
+charset-normalizer==3.0.1r
 cryptography==40.0.2
 defusedxml==0.7.1
 Django==4.2
