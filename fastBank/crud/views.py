@@ -33,8 +33,16 @@ class ListarContas(ListCreateAPIView):
         stringnova = ""
         for i in list:
             stringnova += str(i)
-        filtro = Clientes.objects.get(pk=dados['clienteConta'])
-        criar = Contas.objects.create(clienteConta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
+        filtro = Clientes.objects.get(pk=dados['cliente_conta'])
+        # filtroAtiva = Contas.objects.get(Contas.ativa)
+        # filtroSenha = Contas.objects.get(Contas.senha)
+        # filtroLimite = Contas.objects.get(Contas.limite)
+        # filtroSaldo = Contas.objects.get(Contas.saldo)
+        # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=filtroAtiva, senha=filtroSenha, limite=filtroLimite, saldo=filtroSaldo)
+
+
+        criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
+        
         # estava usando "= make_password" para criptografar a senha
         serializer = ContasSerializer(Contas, criar)
         if serializer.is_valid():
