@@ -5,8 +5,8 @@ from . import views
 urlpatterns = [
     path('cliente/', view=views.ListarClientes.as_view()),
     path('cliente/<int:pk>', view=views.DetalharClientes.as_view()),
-    path('contas/', view=views.ListarContas.as_view()),
-    path('contas/<int:pk>', view=views.DetalharContas.as_view()),  
+    path('conta/', view=views.ListarContas.as_view()),
+    path('conta/<int:pk>', view=views.DetalharContas.as_view()),  
     path('endereco/', view=views.ListarEndereco.as_view()),
     path('endereco/<int:pk>', view=views.DetalharEndereco.as_view()),
     path('transferencia/', view=views.ListarTransferencias.as_view()),

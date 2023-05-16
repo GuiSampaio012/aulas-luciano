@@ -16,7 +16,7 @@ class Clientes(models.Model):
     #conservar o 'ativa'
     nome = models.CharField(max_length=100)
     email = models.EmailField(max_length=50, unique= True)
-    cpf = models.CharField(max_length=20)
+    cpf = models.CharField(max_length=13)
     foto_logo = models.CharField(max_length=100, default="teste")
     data_nascimento = models.DateField()
     celular = models.CharField(max_length=10)
@@ -29,7 +29,7 @@ class Clientes(models.Model):
         verbose_name_plural = "Clientes"
 
 class Endereco(models.Model):
-    clienteEndereco = models.ForeignKey(Clientes, on_delete=models.PROTECT)
+    cliente_endereco = models.ForeignKey(Clientes, on_delete=models.PROTECT)
     rua = models.CharField(max_length=40)
     bairro = models.CharField(max_length=50)
     cidade = models.CharField(max_length=30)
@@ -44,7 +44,7 @@ class Contas(models.Model):
         (DESATIVADA, 'Desativada')
     )
 
-    clienteConta = models.ForeignKey(Clientes, on_delete= models.PROTECT)
+    cliente_conta = models.ForeignKey(Clientes, on_delete= models.PROTECT)
     data_abertura = models.DateField(auto_now=True)
     agencia = models.IntegerField()
     numero = models.CharField(max_length=6, unique=True)
@@ -71,13 +71,13 @@ class Transferencias(models.Model):
         (TRANFERENCIA, 'Transferencia'),
         (PIX,'Pix')
     )
-    valor_enviado = models.IntegerField(0)
-    contaTransferencia = models.ForeignKey(Contas, on_delete= models.PROTECT)
+    valor_enviado = models.IntegerField()
+    conta_transferencia = models.ForeignKey(Contas, on_delete= models.PROTECT)
     tipo = models.CharField(max_length=1, choices=TIPOS_CHOICES, default=TRANFERENCIA)
     data_hora = models.DateField(auto_now=True)
     
     def __str__(self) -> str:
-        return self.valor_enviado
+        return self.tipo
     
     class Meta:
         verbose_name_plural = "Transferencias" 

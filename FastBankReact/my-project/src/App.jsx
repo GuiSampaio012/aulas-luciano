@@ -8,7 +8,7 @@ import Home from './pages/home'
 import Login from './pages/login'
 import Cadastrar from './pages/cadastrar'
 import axios from 'axios'
-import Produtos from './pages/produtos'
+import Transferencia from './pages/transferencia'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -53,7 +53,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login onClick={logar} />} />
         <Route path='/cadastro' element={<Cadastrar />} />
-        <Route path='/produtos' element={<Produtos/>} />
+        <Route path='/transferencia' element={<Transferencia/>} />
       </Routes>
     </>
   )
