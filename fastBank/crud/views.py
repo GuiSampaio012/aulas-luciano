@@ -40,16 +40,43 @@ class ListarContas(ListCreateAPIView):
         # filtroSaldo = Contas.objects.get(Contas.saldo)
         # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=filtroAtiva, senha=filtroSenha, limite=filtroLimite, saldo=filtroSaldo)
 
+        teste = dados.copy()
 
-        criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
-        
+        teste['agencia'] = '171'
+        teste['conta'] = stringnova
+
+        # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
+        # nova_conta = {'cliente_conta': filtro, 'agencia': '171', 'ativa': 'A', 'senha': dados['senha'], 'limite': dados['limite'], 'saldo': dados['saldo'] }
+        # nova_conta.cliente_conta = filtro
+        # nova_conta.agencia = '171'
+        # nova_conta.numero = stringnova
+        # nova_conta.ativa = dados['ativa'].title()
+        # nova_conta.senha = dados['senha']
+        # nova_conta.limite = dados['limite']
+        # nova_conta.saldo = dados['saldo']
+        # print(nova_conta.numero)
         # estava usando "= make_password" para criptografar a senha
-        serializer = ContasSerializer(Contas, criar)
+        print(teste['saldo'])
+        print(teste['limite'])
+        serializer = ContasSerializer(Contas, teste)
         if serializer.is_valid():
-            criar.save()
-        # serializer = ContasSerializer(criar)
-        return Response(serializer.data)
+                nova_conta = Contas()
+                nova_conta.cliente_conta = filtro
+                nova_conta.agencia = 171
+                nova_conta.numero = stringnova
+                nova_conta.ativa = teste['ativa'].title()
+                nova_conta.senha = teste['senha']
+                nova_conta.limite = int(teste['limite'])
+                nova_conta.saldo = int(teste['saldo'])
+                nova_conta.save()
+                return Response(teste)
+
+        else: 
+            print(serializer.errors)
+            return Response(serializer.data)
             
+        # serializer = ContasSerializer(criar)
+        # return Response(serializer.data)      
         
     
 class DetalharContas(RetrieveUpdateDestroyAPIView):
