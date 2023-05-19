@@ -72,7 +72,7 @@ class Transferencias(models.Model):
         (PIX,'Pix')
     )
     valor_enviado = models.IntegerField()
-    conta_transferencia = models.ForeignKey(Contas, on_delete= models.PROTECT)
+    conta_transferencia = models.CharField(max_length=15, default=True)
     conta_remetente = models.CharField( max_length=15, default=True)
     tipo = models.CharField(max_length=1, choices=TIPOS_CHOICES, default=TRANFERENCIA)
     data_hora = models.DateField(auto_now=True)
