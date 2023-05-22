@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -13,16 +13,17 @@ import Transferencia from './pages/transferencia'
 function App() {
   const [count, setCount] = useState(0)
   const navigate = useNavigate()
+  const [logado, setLogado] = useState(false)
 
   const logar = (login, senha) => {
-    console.log('function logar:');
-
     // essa funcão LOGA
     axios.post('http://127.0.0.1:8000/auth/jwt/create', {
       username: login,
       password: senha
     }).then(res => localStorage.setItem('dados',JSON.stringify(res.data)))
     navigate('/')
+    setLogado(true)
+    console.log('function logar:');
 
   }
 
@@ -37,18 +38,27 @@ function App() {
 
 
   const deslogar = () => {
-    //3 etapas
     //1 - limpar localstorage
     localStorage.clear()
     //2 - alterar o state setLogado
     setLogado(false)
+    console.log('deslogouuuuu')
     //3 - redirecionar para o login
-    navigate('/login')
+    // navigate('/login')
   }
+
+  useEffect(()=>{
+    if(logado==false){
+      navigate('/')
+    }
+    else{
+      setLogado(true)
+    }
+  },[logado])
 
   return (
     <>
-      {window.location.pathname == '/login' ? null : <NavBar />}
+      {window.location.pathname == '/login' ? null : <NavBar logado={logado} deslogar={deslogar}/>}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login onClick={logar} />} />

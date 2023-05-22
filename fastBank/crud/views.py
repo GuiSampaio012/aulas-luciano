@@ -141,9 +141,7 @@ class DetalharTransferencias(RetrieveUpdateDestroyAPIView):
    
    
    
-   
-   
-   
+      
    
    
 
