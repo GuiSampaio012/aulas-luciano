@@ -83,13 +83,14 @@ class ListarContas(ListCreateAPIView):
                 nova_conta.saldo = int(teste['saldo'])
                 nova_conta.save()
                 return Response(teste)
-
         else: 
             print(serializer.errors)
             return Response(serializer.data)
             
         # serializer = ContasSerializer(criar)
-        # return Response(serializer.data)      
+        # return Response(serializer.data)
+
+        TOKEN = META.get      
         
     
 class DetalharContas(RetrieveUpdateDestroyAPIView):

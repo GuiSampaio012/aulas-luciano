@@ -55,6 +55,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 
+
+AUTH_USER_MODEL = "crud.Clientes"
+
 ROOT_URLCONF = 'fastBank.urls'
 
 TEMPLATES = [

@@ -16,6 +16,8 @@ function Transferencia() {
   const [informationCli, setInformationCli] = useState([])
   const [id, setId] = useState(9)
 
+  
+
   function transferencia() {
     // essa parte da função entra no banco e seleciona os dados da conta pagadora
     let historico_transferencia = ({ valor_enviado: saldo, conta_transferencia: contaPag, tipo: tipo , conta_remetente: contaRem})

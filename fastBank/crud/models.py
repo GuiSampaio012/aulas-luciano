@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib import admin
-from django.core.validators import MinValueValidator,MaxValueValidator
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+from .managers import CustomUserManager
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
-class Clientes(models.Model):
+class Clientes(AbstractUser):
     CLIENTE_FREE = 'F'
     CLIENTE_PREMIUM = 'P'
     CLIENTE_MASTER = 'M'
@@ -21,6 +24,14 @@ class Clientes(models.Model):
     data_nascimento = models.DateField()
     celular = models.CharField(max_length=10)
     tipo_cliente = models.CharField(max_length=1, choices=CLIENTE_CHOICES, default=CLIENTE_FREE)
+    username = None
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["nome", "cpf", "foto_logo", "data_nascimento", "celular", "tipo_cliente"]
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.numero
     
     def __str__(self) -> str:
         return self.nome
@@ -49,7 +60,6 @@ class Contas(models.Model):
     agencia = models.IntegerField()
     numero = models.CharField(max_length=6, unique=True)
     ativa = models.CharField(max_length=1, choices=ATIVA_CHOICES, default=ATIVA)
-    senha = models.CharField(max_length=4)
     limite = models.IntegerField()
     # preco = models.DecimalField(validators=[MinValueValidator(1,message='O preço deve ser igual ou maior que 1 real'),MaxValueValidator(1000)], max_digits=6, decimal_places=2)
     saldo = models.IntegerField()

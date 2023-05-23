@@ -18,7 +18,7 @@ function App() {
   const logar = (login, senha) => {
     // essa funcão LOGA
     axios.post('http://127.0.0.1:8000/auth/jwt/create', {
-      username: login,
+      email: login,
       password: senha
     }).then(res => localStorage.setItem('dados',JSON.stringify(res.data)))
     navigate('/')
