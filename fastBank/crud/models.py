@@ -19,19 +19,16 @@ class Clientes(AbstractUser):
     #conservar o 'ativa'
     nome = models.CharField(max_length=100)
     email = models.EmailField(max_length=50, unique= True)
-    cpf = models.CharField(max_length=13)
+    cpf = models.CharField(max_length=11)
     foto_logo = models.CharField(max_length=100, default="teste")
     data_nascimento = models.DateField()
-    celular = models.CharField(max_length=10)
+    celular = models.CharField(max_length=11)
     tipo_cliente = models.CharField(max_length=1, choices=CLIENTE_CHOICES, default=CLIENTE_FREE)
     username = None
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["nome", "cpf", "foto_logo", "data_nascimento", "celular", "tipo_cliente"]
 
     objects = CustomUserManager()
-
-    def __str__(self):
-        return self.numero
     
     def __str__(self) -> str:
         return self.nome
@@ -55,12 +52,13 @@ class Contas(models.Model):
         (DESATIVADA, 'Desativada')
     )
 
-    cliente_conta = models.ForeignKey(Clientes, on_delete= models.PROTECT)
+    cliente_conta = models.ForeignKey(Clientes, on_delete= models.CASCADE)
     data_abertura = models.DateField(auto_now=True)
     agencia = models.IntegerField()
     numero = models.CharField(max_length=6, unique=True)
+    # senha = models.CharField(max_length=4)
     ativa = models.CharField(max_length=1, choices=ATIVA_CHOICES, default=ATIVA)
-    limite = models.IntegerField()
+    # limite = models.IntegerField()
     # preco = models.DecimalField(validators=[MinValueValidator(1,message='O preço deve ser igual ou maior que 1 real'),MaxValueValidator(1000)], max_digits=6, decimal_places=2)
     saldo = models.IntegerField()
     
@@ -82,8 +80,8 @@ class Transferencias(models.Model):
         (PIX,'Pix')
     )
     valor_enviado = models.IntegerField()
-    conta_transferencia = models.CharField(max_length=15, default=True)
-    conta_remetente = models.CharField( max_length=15, default=True)
+    conta_transferencia = models.CharField(max_length=6, default=True)
+    conta_remetente = models.CharField( max_length=6, default=True)
     tipo = models.CharField(max_length=1, choices=TIPOS_CHOICES, default=TRANFERENCIA)
     data_hora = models.DateField(auto_now=True)
     

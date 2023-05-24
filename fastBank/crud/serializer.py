@@ -20,7 +20,7 @@ class EnderecoSerializer(serializers.ModelSerializer):
 class ContasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contas
-        fields = ['id','cliente_conta', 'data_abertura', 'ativa', 'senha','limite','saldo', 'numero', 'agencia']
+        fields = ['id','cliente_conta', 'data_abertura', 'ativa', 'saldo', 'numero', 'agencia']
         read_only_fields = ['numero', 'agencia']
 
 class TransferenciasSerializer(serializers.ModelSerializer):

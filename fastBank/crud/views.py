@@ -38,7 +38,7 @@ class ListarContas(ListCreateAPIView):
     
     def create(self, request, *args, **kwargs):
         dados = request.data
-        # print(dados['ativa'])
+        print(dados['cliente_conta'])
         list = []
         for i in range(0,6):
             numero = random.randint(0,9)
@@ -46,14 +46,15 @@ class ListarContas(ListCreateAPIView):
         stringnova = ""
         for i in list:
             stringnova += str(i)
-        filtro = Clientes.objects.get(pk=dados['cliente_conta'])
+        teste = dados.copy()
+        filtro = Clientes.objects.get(id=teste['cliente_conta'])
+        print(filtro)
         # filtroAtiva = Contas.objects.get(Contas.ativa)
         # filtroSenha = Contas.objects.get(Contas.senha)
         # filtroLimite = Contas.objects.get(Contas.limite)
         # filtroSaldo = Contas.objects.get(Contas.saldo)
         # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=filtroAtiva, senha=filtroSenha, limite=filtroLimite, saldo=filtroSaldo)
 
-        teste = dados.copy()
 
         teste['agencia'] = '171'
         teste['conta'] = stringnova
@@ -70,7 +71,6 @@ class ListarContas(ListCreateAPIView):
         # print(nova_conta.numero)
         # estava usando "= make_password" para criptografar a senha
         print(teste['saldo'])
-        print(teste['limite'])
         serializer = ContasSerializer(Contas, teste)
         if serializer.is_valid():
                 nova_conta = Contas()
@@ -78,9 +78,7 @@ class ListarContas(ListCreateAPIView):
                 nova_conta.agencia = 171
                 nova_conta.numero = stringnova
                 nova_conta.ativa = teste['ativa'].title()
-                nova_conta.senha = teste['senha']
-                nova_conta.limite = int(teste['limite'])
-                nova_conta.saldo = int(teste['saldo'])
+                nova_conta.saldo = 1000
                 nova_conta.save()
                 return Response(teste)
         else: 
@@ -90,7 +88,7 @@ class ListarContas(ListCreateAPIView):
         # serializer = ContasSerializer(criar)
         # return Response(serializer.data)
 
-        TOKEN = META.get      
+        # TOKEN = META.get      
         
     
 class DetalharContas(RetrieveUpdateDestroyAPIView):

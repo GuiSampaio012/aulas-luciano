@@ -4,6 +4,7 @@ import InputV from '../componentes/inputText';
 import Botao from '../componentes/botao';
 import axios from 'axios';
 function Transferencia() {
+
   const [contaPag,  setContaPag] = useState('')
   const [contaRem,  setContaRem] = useState('')
   const [tipo,  setTipo] = useState('P')
@@ -60,6 +61,31 @@ function Transferencia() {
     
   }, [])
 
+
+
+//   {information.map((information) => (
+//     <>
+//         <div className='bg-[#D4F8E3] rounded-lg sm:w-fit' key={information.id}>
+//             <img className='w-40 sm:w-[300px] h-[180px] sm:h-[220px] mb-5 p-2' src={information.foto} alt="" />
+//             <h3 className='bg-[#A4D2BC] w-full'>{information.nome}</h3>
+//             <div className="bg-red-500 w-full h-3 "></div>
+//         </div>
+
+//     </>
+// ))}
+
+
+// useEffect(() => {
+//   axios.get("http://127.0.0.1:8000/backPalmeiras/produtos")
+//       .then((res) => {
+//           console.log(res.data)
+//           setInformation(res.data)
+
+//       })
+// }, [])
+
+
+
   return (
     <div className=' bg-[#3D8C64] w-screen h-screen '>
 
@@ -71,10 +97,10 @@ function Transferencia() {
       </div>
       <div className='flex justify-center items-center w-[100%] h-[70%] '>
         <div className='flex flex-col  justify-evenly bg-[#fff] w-[70%] h-[80%]'>
-          <p className='text-center text-[#3D8C64] text-[30px]'>
+          {/* <p className='text-center text-[#3D8C64] text-[30px]'>
             Qual é a conta que irá realizar a transferencia ?
           </p>
-          <input className="h-[5%] w-[100%] border-b border-white text-slate-800 bg-[#0C633D] outline-none" onChange={(e) => setContaPag(e.target.value)}></input>
+          <input className="h-[5%] w-[100%] border-b border-white text-slate-800 bg-[#0C633D] outline-none" onChange={(e) => setContaPag(e.target.value)}></input> */}
           <p className=' text-center text-[#3D8C64] text-[30px]'>
             Que conta irá receber a transferencia ?
           </p>

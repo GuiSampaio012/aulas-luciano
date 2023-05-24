@@ -1,7 +1,6 @@
 import React, { Component, useState} from 'react';
 import axios from 'axios'
 import Botaocad from '../componentes/botaoCadastro';
-import { Input } from 'postcss';
 import InputV from '../componentes/inputText';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +15,17 @@ const Cadastrar = () => {
     const [email, setEmail] = useState('');
     const tipo_cliente = "F"
     const [password, setPassword] = useState('');
-    const dataReal = data_nascimento.re
+    const dataReal = data_nascimento
+
+    // var data = new Date();
+    // var dia = String(data.getDate()).padStart(2, '0');
+    // var mes = String(data.getMonth() + 1).padStart(2, '0');
+    // var ano = data.getFullYear();
+    // const data_abertura = ano + '/' + mes + '/' + dia ;
+    // const agencia = '171'
+    const ativa = "A"
+    const saldo = 1000
+
 
     const cadastrar = () => {
         // essa funcão CADASTRA
@@ -31,17 +40,23 @@ const Cadastrar = () => {
           password: password
         }).then((res) =>{ 
             if(res.status==200||res.status==201) {
+                console.log(res.data.id)
             localStorage.setItem('dadosCad',JSON.stringify(res.data))
                 axios.post('http://127.0.0.1:8000/crud/contas/', {
-                    // cliente:res.data,
+                    cliente_conta:res.data.id,
+                    // data_abertura:data_abertura,
+                    // agencia:agencia,
+                    // numero:numero,
+                    ativa:ativa,
+                    saldo:saldo
 
-                },{headers:{Authotization:` JWT ${a}`}})
+                },/*{headers:{Authotization:` JWT ${a}`}}*/)
                 .then((res) =>{
                     console.log(res.data);
                 })
             }
         })
-        
+        navigate('/login')
         console.log('function cadastrar:');
     }
         return (
@@ -52,7 +67,7 @@ const Cadastrar = () => {
                     <InputV type={'date'} onChange={(e) => setData_nascimento(e.target.value)} placeholder="data de nascimento:" ></InputV>
                     <InputV onChange={(e) => setCelular(e.target.value)} placeholder="celular:" ></InputV>
                     <InputV onChange={(e) => setEmail(e.target.value)} placeholder="email:" ></InputV>
-                    <input onChange={(e) => setPassword(e.target.value)} placeholder="senha:" 
+                    <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="senha:" 
                     className=" m-3  w-4/4  border-b border-white text-slate-800 bg-[#0C633D] outline-none"
                     ></input>
                     {/* <Botaocad  placeholder= "CADASTRO"></Botaocad> */}
