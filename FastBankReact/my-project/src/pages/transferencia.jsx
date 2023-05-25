@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import InputV from '../componentes/inputText';
 import Botao from '../componentes/botao';
 import axios from 'axios';
-function Transferencia() {
-
+function Transferencia({login}) {
+  const [infoCli, setInfoCli] = useState([])
+  const [saldoR, setSaldoR] = useState('')
   const [contaPag,  setContaPag] = useState('')
   const [contaRem,  setContaRem] = useState('')
   const [tipo,  setTipo] = useState('P')
@@ -17,17 +18,32 @@ function Transferencia() {
   const [informationCli, setInformationCli] = useState([])
   const [id, setId] = useState(9)
 
-  
+  // useEffect(()=>{
+  //   if(logado==true){
+  //       axios.get(`http://127.0.0.1:8000/crud/clientes/?filtro=${login}`)
+  //       .then((res) => {
+  //           let cliente_encontrado = []
+  //           cliente_encontrado.push(res.data[0])
+  //           cliente_encontrado = cliente_encontrado[0]
+  //           setInfoCli(cliente_encontrado)
+  //           console.log(cliente_encontrado.id)
+  //         })
+  //   }
+  //   else{
+  //       console.log('deu ruim')
+  //   }
+  // },[logado])
+
 
   function transferencia() {
     // essa parte da função entra no banco e seleciona os dados da conta pagadora
-    let historico_transferencia = ({ valor_enviado: saldo, conta_transferencia: contaPag, tipo: tipo , conta_remetente: contaRem})
+    let historico_transferencia = ({ valor_enviado: saldo, conta_transferencia: contaPag, tipo: tipo, conta_remetente: contaRem})
     axios.get(`http://127.0.0.1:8000/crud/contas/?filtro=${contaPag}`)
     .then((res) => {
       let usuario_encontrado = []
       usuario_encontrado.push(res.data[0])
       usuario_encontrado = usuario_encontrado[0]
-
+      
       //descontando o valor que a conta está pagando
       usuario_encontrado.saldo = parseFloat(usuario_encontrado.saldo) - parseFloat(saldo)
       axios.put(`http://127.0.0.1:8000/crud/contas/${usuario_encontrado.id}`, usuario_encontrado)
@@ -49,30 +65,32 @@ function Transferencia() {
   }
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/crud/contas/")
-      .then((res) => {
-        setInformation(res.data)
-    
-    axios.get(`http://127.0.0.1:8000/crud/contas/${id}`)   
+    // buscando o cliente da conta pelo seu id
+    axios.get(`http://127.0.0.1:8000/crud/clientes/?filtro=${login}`)
     .then((res) => {
-      setInformationCli(res.data)
+        let cliente_encontrado = []
+        cliente_encontrado.push(res.data[0])
+        cliente_encontrado = cliente_encontrado[0]
+        setInfoCli(cliente_encontrado.id)
+        console.log(cliente_encontrado.id)
+        setContaPag(cliente_encontrado.id)
     })
-  })
     
   }, [])
 
+  useEffect(() => {
+    // essa parte da função entra no banco e seleciona os dados da conta pagadora
+    axios.get(`http://127.0.0.1:8000/crud/contas/?filtro=${contaPag}`)
+    .then((res) => {
+      let usuario_encontrado = []
+      usuario_encontrado.push(res.data[0])
+      usuario_encontrado = usuario_encontrado[0]
+      console.log(usuario_encontrado)
+      setSaldoR(usuario_encontrado.saldo)
+      console.log(saldoR)
+    })  
+  },[contaPag])
 
-
-//   {information.map((information) => (
-//     <>
-//         <div className='bg-[#D4F8E3] rounded-lg sm:w-fit' key={information.id}>
-//             <img className='w-40 sm:w-[300px] h-[180px] sm:h-[220px] mb-5 p-2' src={information.foto} alt="" />
-//             <h3 className='bg-[#A4D2BC] w-full'>{information.nome}</h3>
-//             <div className="bg-red-500 w-full h-3 "></div>
-//         </div>
-
-//     </>
-// ))}
 
 
 // useEffect(() => {
@@ -90,13 +108,14 @@ function Transferencia() {
     <div className=' bg-[#3D8C64] w-screen h-screen '>
 
       <div className=' p-10 justify-center flex flex-col bg-[#fff] w-[100%] h-[25%] ' >
-        <p className='text-center text-[#3D8C64] text-[50px]'key={information.id}> R$ {information.saldo}</p>
+        <p className='text-center text-[#3D8C64] text-[50px]'key={information.id}> R$ {saldoR}</p>
         <p className=' text-center text-[#3D8C64] text-[30px]'>
           aqui você pode fazer transferências para outras contas
         </p>
       </div>
       <div className='flex justify-center items-center w-[100%] h-[70%] '>
-        <div className='flex flex-col  justify-evenly bg-[#fff] w-[70%] h-[80%]'>
+        <div className='flex flex-col  justify-evenly bg-[#fff] w-[70%] h-[80%]'>                    
+          <p>esta é sua conta: {contaPag}</p>
           {/* <p className='text-center text-[#3D8C64] text-[30px]'>
             Qual é a conta que irá realizar a transferencia ?
           </p>
@@ -108,7 +127,6 @@ function Transferencia() {
           <p className='text-center text-[#3D8C64] text-[30px]'>
             Quanto será o valor ?
           </p>
-          {/* falta fazer aparecer a opção de selecionar o tipo da transferencia tipo um '<select>' */}
           <input onChange={(e) => (setSaldo(e.target.value)) } placeholder='Digite um valor' 
             className=" h-[5%] w-[100%] border-b border-white text-slate-800 bg-[#0C633D] outline-none" />
           <p className='text-center text-[#3D8C64] text-[30px]'>

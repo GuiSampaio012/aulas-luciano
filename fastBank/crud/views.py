@@ -13,6 +13,17 @@ import random
 class ListarClientes(ListCreateAPIView):
     queryset = Clientes.objects.all()
     serializer_class = ClienteSerializer
+    # função buscar os dados da conta pela url
+    def get_queryset(self):
+        # criando um filtro para acessar a url com um parametro
+        filtro = self.request.query_params.get('filtro')
+        resultado_id_cliente = Clientes.objects.filter(email=filtro)
+
+        # se o numero passado for igual o da conta, ele retornara (continua na linha abaixo)
+        # os dados da conta especifica, caso não, ele retornara todas as contas
+        if resultado_id_cliente:
+            return resultado_id_cliente
+        return Clientes.objects.all()  
        
 class DetalharClientes(RetrieveUpdateDestroyAPIView):
     queryset = Clientes.objects.all()
@@ -26,12 +37,16 @@ class ListarContas(ListCreateAPIView):
     def get_queryset(self):
         # criando um filtro para acessar a url com um parametro
         filtro = self.request.query_params.get('filtro')
+        # pegando o valor do parametro e comparando com o numero da conta
         resultado_num_conta = Contas.objects.filter(numero=filtro)
-
+        # pegando o valor do parametro e comparando com o id do um cliente da conta
+        resultado_idCliente_conta = Contas.objects.filter(cliente_conta=filtro)
         # se o numero passado for igual o da conta, ele retornara (continua na linha abaixo)
         # os dados da conta especifica, caso não, ele retornara todas as contas
         if resultado_num_conta:
             return resultado_num_conta
+        if resultado_idCliente_conta:
+            return resultado_idCliente_conta
         return Contas.objects.all()
         
 

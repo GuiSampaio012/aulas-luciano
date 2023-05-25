@@ -1,13 +1,15 @@
 import { defaults } from "autoprefixer";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Botao from "../componentes/botao";
 import { useNavigation } from "react-router-dom";
+import axios from "axios";
 
 const Login = ({onClick}) => {
     const navigate = useNavigate()
     const [login, setLogin] = useState('')
     const [senha, setSenha] = useState('')
+
     return (
        
         <div className='w-screen h-screen flex justify-center items-center bg-[#3D8C64]'>

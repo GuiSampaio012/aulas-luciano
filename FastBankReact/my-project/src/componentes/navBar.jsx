@@ -1,8 +1,23 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const NavBar = ({logado, deslogar}) => {
-    return ( 
+
+    
+    const acesso = localStorage.getItem("dados")
+    const chave = JSON.parse(acesso).access
+    
+    useEffect(() =>{
+        console.log(chave);
+        axios.post(`http://127.0.0.1:8000/auth/jwt/verify/`, chave)
+        .then((response) =>{
+            if(response.status==200 || response.status==201){
+                logado = true     
+            }
+        })
+    })
+    return (
     <>
         <div className="flex justify-between w-screen bg-slate-800 p-4">
             <ul className="flex justify-around w-screen">

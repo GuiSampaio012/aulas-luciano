@@ -20,9 +20,13 @@ function App() {
     axios.post('http://127.0.0.1:8000/auth/jwt/create', {
       email: login,
       password: senha
-    }).then(res => localStorage.setItem('dados',JSON.stringify(res.data)))
-    navigate('/')
-    setLogado(true)
+    }).then(res => {
+      localStorage.setItem('dados',JSON.stringify(res.data))
+      navigate('/')
+      setLogado(true)
+    })
+    
+    
     console.log('function logar:');
 
   }
@@ -44,25 +48,25 @@ function App() {
     setLogado(false)
     console.log('deslogouuuuu')
     //3 - redirecionar para o login
-    // navigate('/login')
+    navigate('/')
   }
 
-  useEffect(()=>{
-    if(logado==false){
-      navigate('/')
-    }
-    else{
-      setLogado(true)
-    }
-  },[logado])
+  // useEffect(()=>{
+  //   if(logado==false){
+  //     navigate('/')
+  //   }
+  //   else{
+  //     setLogado(true)
+  //   }
+  // },[logado])
 
   return (
     <>
       {window.location.pathname == '/login' ? null : <NavBar logado={logado} deslogar={deslogar}/>}
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login onClick={logar} />} />
-        <Route path='/cadastro' element={<Cadastrar />} />
+        <Route path='/' element={<Home/>} />
+        <Route path='/login' element={<Login onClick={logar}/>} />
+        <Route path='/cadastro' element={<Cadastrar/>} />
         <Route path='/transferencia' element={<Transferencia/>} />
       </Routes>
     </>
