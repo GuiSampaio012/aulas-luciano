@@ -3,36 +3,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import InputV from '../componentes/inputText';
 import Botao from '../componentes/botao';
 import axios from 'axios';
-function Transferencia({login}) {
+function Transferencia({login,logado}) {
   const [infoCli, setInfoCli] = useState([])
   const [saldoR, setSaldoR] = useState('')
   const [contaPag,  setContaPag] = useState('')
   const [contaRem,  setContaRem] = useState('')
   const [tipo,  setTipo] = useState('P')
 
-  const [contaEnviando, setContaEnviando] = useState([])
-  const [contaRecebendo, setContaRecebendo] = useState([])
+
 
   const [saldo, setSaldo] = useState('')
   const [information, setInformation] = useState([])
-  const [informationCli, setInformationCli] = useState([])
   const [id, setId] = useState(9)
 
-  // useEffect(()=>{
-  //   if(logado==true){
-  //       axios.get(`http://127.0.0.1:8000/crud/clientes/?filtro=${login}`)
-  //       .then((res) => {
-  //           let cliente_encontrado = []
-  //           cliente_encontrado.push(res.data[0])
-  //           cliente_encontrado = cliente_encontrado[0]
-  //           setInfoCli(cliente_encontrado)
-  //           console.log(cliente_encontrado.id)
-  //         })
-  //   }
-  //   else{
-  //       console.log('deu ruim')
-  //   }
-  // },[logado])
 
 
   function transferencia() {

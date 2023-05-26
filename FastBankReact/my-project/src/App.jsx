@@ -47,8 +47,9 @@ function App() {
     //2 - alterar o state setLogado
     setLogado(false)
     console.log('deslogouuuuu')
-    //3 - redirecionar para o login
+    alert(logado)
     navigate('/')
+    //3 - redirecionar para o login
   }
 
   // useEffect(()=>{
@@ -67,7 +68,7 @@ function App() {
         <Route path='/' element={<Home/>} />
         <Route path='/login' element={<Login onClick={logar}/>} />
         <Route path='/cadastro' element={<Cadastrar/>} />
-        <Route path='/transferencia' element={<Transferencia/>} />
+        <Route path='/transferencia' element={<Transferencia logado={logado}/>} />
       </Routes>
     </>
   )

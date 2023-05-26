@@ -3,17 +3,21 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const NavBar = ({logado, deslogar}) => {
-
-    
     const acesso = localStorage.getItem("dados")
-    const chave = JSON.parse(acesso).access
+    let chave =""
+    if (acesso) {
+        chave = JSON.parse(acesso).access
+    }
     
     useEffect(() =>{
         console.log(chave);
-        axios.post(`http://127.0.0.1:8000/auth/jwt/verify/`, chave)
+        axios.post(`http://127.0.0.1:8000/auth/jwt/verify/`, {token: chave})
         .then((response) =>{
             if(response.status==200 || response.status==201){
-                logado = true     
+                logado = true
+            }
+            else{
+                logado = false 
             }
         })
     })
@@ -23,10 +27,8 @@ const NavBar = ({logado, deslogar}) => {
             <ul className="flex justify-around w-screen">
                 <li><Link className="text-white" to="/">Home</Link></li>
                 <li><Link className="text-white" to="/transferencia">Transferências</Link></li>
-                {logado == true?<li><button onClick={deslogar} className="text-white">Deslogar</button></li>:
+                {logado?<li><button onClick={deslogar} className="text-white">Deslogar</button></li>:
                 <li><Link className="text-white" to="/login">Login</Link></li>}
-                
-                                 
                 
                 {/* <li><button onClick={}> Logout </button></li> */}
             </ul>    
