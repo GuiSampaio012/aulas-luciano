@@ -15,16 +15,16 @@ class ClienteSerializer(serializers.ModelSerializer):
 class EnderecoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Endereco
-        fields = ['id','clienteEndereco', 'rua', 'bairro', 'cidade', 'estado']        
+        fields = ['id','cliente_endereco', 'rua', 'bairro', 'cidade', 'estado']        
         
 class ContasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contas
-        fields = ['id','clienteConta', 'data_abertura', 'ativa', 'senha','limite','saldo', 'numero', 'agencia']
+        fields = ['id','cliente_conta', 'data_abertura', 'ativa', 'saldo', 'numero', 'agencia']
         read_only_fields = ['numero', 'agencia']
 
 class TransferenciasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transferencias
-        fields = ['id','valorEnviado', 'contaTransferencia', 'tipo', 'data_hora']
+        fields = ['id','valor_enviado', 'conta_transferencia', 'tipo', 'data_hora','conta_remetente']
 

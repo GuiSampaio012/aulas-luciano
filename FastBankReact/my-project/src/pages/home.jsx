@@ -13,7 +13,7 @@ function Home() {
             <p className='text-[#0C633D] text-center text-[8vh]'>CRÉDITO FÁCIL NA SUA MÃO</p>
           </div>
           <div className='w-[100%] h-[30%] flex justify-center items-center'>
-            <a className='text-slate-100 text-center text-[8vh]' href='/login'> VENHA RÁPIDO </a>
+            <Link className='text-slate-100 text-center text-[8vh]' to='/login'> VENHA RÁPIDO </Link>
           </div>
         </div>
       </>

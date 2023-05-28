@@ -6,11 +6,24 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView 
 from django.contrib.auth.hashers import make_password
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import AccessToken
 import random
 
 class ListarClientes(ListCreateAPIView):
     queryset = Clientes.objects.all()
     serializer_class = ClienteSerializer
+    # função buscar os dados da conta pela url
+    def get_queryset(self):
+        # criando um filtro para acessar a url com um parametro
+        filtro = self.request.query_params.get('filtro')
+        resultado_id_cliente = Clientes.objects.filter(email=filtro)
+
+        # se o numero passado for igual o da conta, ele retornara (continua na linha abaixo)
+        # os dados da conta especifica, caso não, ele retornara todas as contas
+        if resultado_id_cliente:
+            return resultado_id_cliente
+        return Clientes.objects.all()  
        
 class DetalharClientes(RetrieveUpdateDestroyAPIView):
     queryset = Clientes.objects.all()
@@ -19,25 +32,78 @@ class DetalharClientes(RetrieveUpdateDestroyAPIView):
 class ListarContas(ListCreateAPIView):
     queryset = Contas.objects.all()
     serializer_class = ContasSerializer
+
+    # função buscar os dados da conta pela url
+    def get_queryset(self):
+        # criando um filtro para acessar a url com um parametro
+        filtro = self.request.query_params.get('filtro')
+        # pegando o valor do parametro e comparando com o numero da conta
+        resultado_num_conta = Contas.objects.filter(numero=filtro)
+        # pegando o valor do parametro e comparando com o id do um cliente da conta
+        resultado_idCliente_conta = Contas.objects.filter(cliente_conta=filtro)
+        # se o numero passado for igual o da conta, ele retornara (continua na linha abaixo)
+        # os dados da conta especifica, caso não, ele retornara todas as contas
+        if resultado_num_conta:
+            return resultado_num_conta
+        if resultado_idCliente_conta:
+            return resultado_idCliente_conta
+        return Contas.objects.all()
+        
+
     
     def create(self, request, *args, **kwargs):
         dados = request.data
-        # print(dados['ativa'])
+        print(dados['cliente_conta'])
         list = []
         for i in range(0,6):
             numero = random.randint(0,9)
             list.append(numero)
-            
         stringnova = ""
         for i in list:
             stringnova += str(i)
-        filtro = Clientes.objects.get(pk=dados['clienteConta'])
-        criar = Contas.objects.create(clienteConta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
+        teste = dados.copy()
+        filtro = Clientes.objects.get(id=teste['cliente_conta'])
+        print(filtro)
+        # filtroAtiva = Contas.objects.get(Contas.ativa)
+        # filtroSenha = Contas.objects.get(Contas.senha)
+        # filtroLimite = Contas.objects.get(Contas.limite)
+        # filtroSaldo = Contas.objects.get(Contas.saldo)
+        # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=filtroAtiva, senha=filtroSenha, limite=filtroLimite, saldo=filtroSaldo)
+
+
+        teste['agencia'] = '171'
+        teste['conta'] = stringnova
+
+        # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
+        # nova_conta = {'cliente_conta': filtro, 'agencia': '171', 'ativa': 'A', 'senha': dados['senha'], 'limite': dados['limite'], 'saldo': dados['saldo'] }
+        # nova_conta.cliente_conta = filtro
+        # nova_conta.agencia = '171'
+        # nova_conta.numero = stringnova
+        # nova_conta.ativa = dados['ativa'].title()
+        # nova_conta.senha = dados['senha']
+        # nova_conta.limite = dados['limite']
+        # nova_conta.saldo = dados['saldo']
+        # print(nova_conta.numero)
         # estava usando "= make_password" para criptografar a senha
-        criar.save()
-        serializer = ContasSerializer(criar)
-        return Response(serializer.data)
+        print(teste['saldo'])
+        serializer = ContasSerializer(Contas, teste)
+        if serializer.is_valid():
+                nova_conta = Contas()
+                nova_conta.cliente_conta = filtro
+                nova_conta.agencia = 171
+                nova_conta.numero = stringnova
+                nova_conta.ativa = teste['ativa'].title()
+                nova_conta.saldo = 1000
+                nova_conta.save()
+                return Response(teste)
+        else: 
+            print(serializer.errors)
+            return Response(serializer.data)
             
+        # serializer = ContasSerializer(criar)
+        # return Response(serializer.data)
+
+        # TOKEN = META.get      
         
     
 class DetalharContas(RetrieveUpdateDestroyAPIView):
@@ -45,10 +111,36 @@ class DetalharContas(RetrieveUpdateDestroyAPIView):
     serializer_class = ContasSerializer
 
 class ListarEndereco(ListCreateAPIView):
+    permission_classes = (IsAuthenticated, )
     queryset = Endereco.objects.all()
     serializer_class = EnderecoSerializer
+
+    def list(self, request, *args, **kwargs):
+        #QUEM FOI O AUTOR DO REQUEST ???
+        token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+        print(token)
+        dados = AccessToken(token)
+        usuario = dados['user_id']
+        print(usuario)
+        listaEndereco = Endereco.objects.filter(clienteEndereco_id=usuario)
+        print(listaEndereco)
+
+        for i in listaEndereco:
+            print("entrou")
+            print(i.rua)
+
+        # COM BASE NO ID DO USUARIO QUE FEZ A REQUESIÇÃO
+        # INSERIR DADOS EM TABELAS, FAZER CONSULTAS (OBJECTS.)
+
+        return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        # dados = request.data
+        # criar = Contato.objects.create("variavel" = dados["variavel"])
+        return super().create(request, *args, **kwargs)
        
 class DetalharEndereco(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated, )
     queryset = Endereco.objects.all()
     serializer_class = EnderecoSerializer 
 
@@ -63,9 +155,7 @@ class DetalharTransferencias(RetrieveUpdateDestroyAPIView):
    
    
    
-   
-   
-   
+      
    
    
 
