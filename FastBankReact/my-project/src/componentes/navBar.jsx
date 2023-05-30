@@ -20,7 +20,7 @@ const NavBar = ({logado, deslogar}) => {
                 logado = false 
             }
         })
-    })
+    },[])
     return (
     <>
         <div className="flex justify-between w-screen bg-slate-800 p-4">

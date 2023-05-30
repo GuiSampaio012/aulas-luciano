@@ -30,6 +30,7 @@ class DetalharClientes(RetrieveUpdateDestroyAPIView):
     serializer_class = ClienteSerializer   
 
 class ListarContas(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Contas.objects.all()
     serializer_class = ContasSerializer
 
@@ -50,6 +51,16 @@ class ListarContas(ListCreateAPIView):
         return Contas.objects.all()
         
 
+    
+    def get(self, request, *args, **kwargs):
+            #QUEM FOI O AUTOR DO REQUEST ???
+        token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+        print(token)
+        dados = AccessToken(token)
+        usuario = dados['user_id']
+        print(usuario)
+        listaConta = Contas.objects.filter(cliente_conta_id=usuario)
+        return super().list(request, *args, **kwargs)
     
     def create(self, request, *args, **kwargs):
         dados = request.data
@@ -102,6 +113,7 @@ class ListarContas(ListCreateAPIView):
             
         # serializer = ContasSerializer(criar)
         # return Response(serializer.data)
+    
 
         # TOKEN = META.get      
         
@@ -109,6 +121,8 @@ class ListarContas(ListCreateAPIView):
 class DetalharContas(RetrieveUpdateDestroyAPIView):
     queryset = Contas.objects.all()
     serializer_class = ContasSerializer
+
+    
 
 class ListarEndereco(ListCreateAPIView):
     permission_classes = (IsAuthenticated, )
@@ -122,17 +136,13 @@ class ListarEndereco(ListCreateAPIView):
         dados = AccessToken(token)
         usuario = dados['user_id']
         print(usuario)
-        listaEndereco = Endereco.objects.filter(clienteEndereco_id=usuario)
-        print(listaEndereco)
-
-        for i in listaEndereco:
-            print("entrou")
-            print(i.rua)
+        listaEndereco = Endereco.objects.filter(cliente_endereco_id=usuario)
+        return Response(listaEndereco)
 
         # COM BASE NO ID DO USUARIO QUE FEZ A REQUESIÇÃO
         # INSERIR DADOS EM TABELAS, FAZER CONSULTAS (OBJECTS.)
 
-        return super().list(request, *args, **kwargs)
+        # return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         # dados = request.data
