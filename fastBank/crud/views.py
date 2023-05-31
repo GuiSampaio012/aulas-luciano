@@ -11,6 +11,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 import random
 
 class ListarClientes(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Clientes.objects.all()
     serializer_class = ClienteSerializer
     # função buscar os dados da conta pela url
@@ -23,7 +24,17 @@ class ListarClientes(ListCreateAPIView):
         # os dados da conta especifica, caso não, ele retornara todas as contas
         if resultado_id_cliente:
             return resultado_id_cliente
-        return Clientes.objects.all()  
+        return Clientes.objects.all()
+    
+    def get(self, request, *args, **kwargs):
+        #QUEM FOI O AUTOR DO REQUEST ???
+        token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+        print(token)
+        dados = AccessToken(token)
+        usuario = dados['user_id']
+        print(usuario)
+        listaCliente = Clientes.objects.filter(id=usuario)
+        return super().list(listaCliente)
        
 class DetalharClientes(RetrieveUpdateDestroyAPIView):
     queryset = Clientes.objects.all()
