@@ -2,22 +2,26 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const NavBar = ({logado, deslogar}) => {
+const NavBar = ({deslogar}) => {
+    const [logado,setLogado] = useState(false)
+
     const acesso = localStorage.getItem("dados")
     let chave =""
     if (acesso) {
         chave = JSON.parse(acesso).access
     }
-    
+    else{
+        chave = 'deu ruim'
+    }
     useEffect(() =>{
         console.log(chave);
         axios.post(`http://127.0.0.1:8000/auth/jwt/verify/`, {token: chave})
         .then((response) =>{
             if(response.status==200 || response.status==201){
-                logado = true
+                setLogado(true)
             }
             else{
-                logado = false 
+                setLogado(false) 
             }
         })
     },[])
@@ -33,6 +37,7 @@ const NavBar = ({logado, deslogar}) => {
                 {/* <li><button onClick={}> Logout </button></li> */}
             </ul>    
         </div>      
+        <></>
     </>
     );
 }

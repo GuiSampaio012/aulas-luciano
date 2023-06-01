@@ -26,6 +26,24 @@ const Cadastrar = () => {
     const ativa = "A"
     const saldo = 1000
 
+    const[token, setToken] = useState('')
+    const[teste, setTeste] = useState([])
+
+    
+    useEffect(() => {
+        pegartoken()
+    }, [])
+
+    const pegartoken = () => {
+        const acesso = localStorage.getItem("dados")
+        let chave =""
+        if (acesso) {
+            chave = JSON.parse(acesso).access
+            setToken(chave)
+        }
+    }
+
+
 
     const cadastrar = () => {
         // essa funcão CADASTRA
@@ -38,25 +56,50 @@ const Cadastrar = () => {
           tipo_cliente:tipo_cliente,
           email:email,
           password: password
+        // }).then((res) =>{ 
+        //     if(res.status==200||res.status==201) {
+        //         console.log(res.data.id)
+        //     localStorage.setItem('dadosCad',JSON.stringify(res.data))
+        //         axios.post('http://127.0.0.1:8000/crud/contas/', {
+        //             cliente_conta:res.data.id,
+        //             // data_abertura:data_abertura,
+        //             // agencia:agencia,
+        //             // numero:numero,
+        //             ativa:ativa,
+        //             saldo:saldo
+
+        //         },/*{headers:{Authotization:` JWT ${a}`}}*/)
+        //         .then((res) =>{
+        //             console.log(res.data);
+        //         })
+        //     }
+        // })
         }).then((res) =>{ 
             if(res.status==200||res.status==201) {
                 console.log(res.data.id)
-            localStorage.setItem('dadosCad',JSON.stringify(res.data))
-                axios.post('http://127.0.0.1:8000/crud/contas/', {
-                    cliente_conta:res.data.id,
-                    // data_abertura:data_abertura,
-                    // agencia:agencia,
-                    // numero:numero,
-                    ativa:ativa,
-                    saldo:saldo
-
-                },/*{headers:{Authotization:` JWT ${a}`}}*/)
-                .then((res) =>{
-                    console.log(res.data);
+                localStorage.setItem('dadosCad',JSON.stringify(res.data))
+                axios.post('http://127.0.0.1:8000/auth/jwt/create', {
+                    email: email,
+                    password: password
+                }).then((res) =>{ 
+                    localStorage.setItem('dados',JSON.stringify(res.data))
+                    axios.get('http://127.0.0.1:8000/auth/users/me/',  {headers:{Authorization: 'JWT ' + res.data.access}})
+                    .then((response) => {
+                        console.log(response.data)
+                        axios.post('http://127.0.0.1:8000/crud/contas/',{
+                            cliente_conta:response.data.id,
+                            ativa:ativa,
+                            saldo:saldo
+                            },{headers:{Authorization: 'JWT ' + res.data.access}},)
+                            .then((res) =>{
+                                console.log(res.data);
+                                navigate('/home')
+                            })
+                    })    
                 })
+                
             }
         })
-        navigate('/login')
         console.log('function cadastrar:');
     }
         return (
