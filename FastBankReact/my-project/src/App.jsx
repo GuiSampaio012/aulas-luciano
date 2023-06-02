@@ -50,18 +50,11 @@ function App() {
     //3 - redirecionar para o login
   }
 
-  // useEffect(()=>{
-  //   if(logado==false){
-  //     navigate('/')
-  //   }
-  //   else{
-  //     setLogado(true)
-  //   }
-  // },[logado])
 
   return (
     <>
-      {window.location.pathname == '/login' ? null : <NavBar deslogar={deslogar}/>}
+      {/* {window.location.pathname == '/login' ? null : <NavBar deslogar={deslogar}/>} */}
+      {window.location.pathname == '/login' || window.location.pathname == '/cadastro'? null : <NavBar deslogar={deslogar}/>}
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/login' element={<Login onClick={logar}/>} />

@@ -9,7 +9,6 @@ function Transferencia({login,logado}) {
   const [contaPag,  setContaPag] = useState('')
   const [contaRem,  setContaRem] = useState('')
   const [tipo,  setTipo] = useState('P')
-
   const [saldo, setSaldo] = useState('')
 
   const[token, setToken] = useState('')
@@ -19,28 +18,30 @@ function Transferencia({login,logado}) {
 
   useEffect(() => {
     pegartoken()
-  }, [])
-
-  useEffect(()=>{
-    axios.get('http://127.0.0.1:8000/crud/clientes/', {headers:{Authorization: 'JWT ' + token}})
-    .then((res) =>{
-        setIdCli(res['data'][0])
-    })
-  },[token])
+  },[])
 
   useEffect(() =>{
-    axios.get('http://127.0.0.1:8000/crud/contas/', {headers:{Authorization: 'JWT ' + token}}).then((response) => {
-      //console.log(response)
-      setTeste(response['data'][0])
-    })
+    console.log("FOI")
+    axios.get('http://127.0.0.1:8000/auth/users/me/',  {headers:{Authorization: 'JWT ' + token}}).then((response) => {
+        console.log(response.data)
+        axios.get(`http://127.0.0.1:8000/crud/clientes/${response.data.id}`, {headers:{Authorization: 'JWT ' + token}}).then((res) =>{
+          console.log(res.data)
+          axios.get(`http://127.0.0.1:8000/crud/contas/?filtro=${response.data.id}`, {headers:{Authorization: 'JWT ' + token}}).then((response) => {
+            console.log(response.data)
+            setTeste(response['data'][0])
+            console.log(teste.cliente_conta)
+            setSaldoR(response['data'][0]['saldo'])
+          })
+        })
+      })
   },[token])
-  
+
   const pegartoken = () => {
     const acesso = localStorage.getItem("dados")
     let chave =""
     if (acesso) {
-        chave = JSON.parse(acesso).access
-        setToken(chave)
+      chave = JSON.parse(acesso).access
+      setToken(chave)
     }
   }
 
@@ -81,46 +82,6 @@ function Transferencia({login,logado}) {
     axios.post('http://127.0.0.1:8000/crud/transferencia/', historico_transferencia)
 }
 
-  useEffect(() => {
-    // buscando o cliente da conta pelo seu id
-    axios.get(`http://127.0.0.1:8000/crud/clientes/?filtro=${login}`)
-    .then((res) => {
-        let cliente_encontrado = []
-        cliente_encontrado.push(res.data[0])
-        cliente_encontrado = cliente_encontrado[0]
-        setInfoCli(cliente_encontrado.id)
-        console.log(cliente_encontrado.id)
-        setContaPag(cliente_encontrado.id)
-    })
-    
-  }, [])
-
-  useEffect(() => {
-    // essa parte da função entra no banco e seleciona os dados da conta pagadora
-    axios.get(`http://127.0.0.1:8000/crud/contas/?filtro=${contaPag}`)
-    .then((res) => {
-      let usuario_encontrado = []
-      usuario_encontrado.push(res.data[0])
-      usuario_encontrado = usuario_encontrado[0]
-      console.log(usuario_encontrado)
-      setSaldoR(usuario_encontrado.saldo)
-      console.log(saldoR)
-    })  
-  },[contaPag])
-
-
-
-// useEffect(() => {
-//   axios.get("http://127.0.0.1:8000/backPalmeiras/produtos")
-//       .then((res) => {
-//           console.log(res.data)
-//           setInformation(res.data)
-
-//       })
-// }, [])
-
-
-
   return (
     <div className=' bg-[#3D8C64] w-screen h-screen '>
 
@@ -131,29 +92,27 @@ function Transferencia({login,logado}) {
         </p>
       </div>
       <div className='flex justify-center items-center w-[100%] h-[70%] '>
-        <div className='flex flex-col  justify-evenly bg-[#fff] w-[70%] h-[80%]'>                    
-          <p>esta é sua conta: {contaPag}</p>
-          {/* <p className='text-center text-[#3D8C64] text-[30px]'>
-            Qual é a conta que irá realizar a transferencia ?
-          </p>
-          <input className="h-[5%] w-[100%] border-b border-white text-slate-800 bg-[#0C633D] outline-none" onChange={(e) => setContaPag(e.target.value)}></input> */}
+        <div className='rounded-[10px] flex flex-col justify-evenly bg-[#fff] w-[70%] h-[90%]'>                    
           <p className=' text-center text-[#3D8C64] text-[30px]'>
             Que conta irá receber a transferencia ?
           </p>
-          <input className=" h-[5%] w-[100%] border-b border-white text-slate-800 bg-[#0C633D] outline-none" onChange={(e) => setContaRem(e.target.value)}></input>
+          <input placeholder='Digite a conta do remetente'
+            className="text-[#FFF] text-center h-[8%] w-[100%] border-b border-white bg-[#0C633D] outline-none" onChange={(e) => setContaRem(e.target.value)}>
+          </input>
           <p className='text-center text-[#3D8C64] text-[30px]'>
             Quanto será o valor ?
           </p>
-          <input onChange={(e) => (setSaldo(e.target.value)) } placeholder='Digite um valor' 
-            className=" h-[5%] w-[100%] border-b border-white text-slate-800 bg-[#0C633D] outline-none" />
+          <input placeholder='Digite um valor a ser enviado'onChange={(e) => (setSaldo(e.target.value))} 
+            className="h-[8%] w-[100%] text-center border-b border-white text-[#FFF] bg-[#0C633D] outline-none">
+          </input>
           <p className='text-center text-[#3D8C64] text-[30px]'>
             Qual será o tipo da trasferência ?
           </p>
-          <select className=" h-[5%] w-[100%] border-b border-white text-slate-800 bg-[#0C633D] outline-none" 
+          <select className=" text-center h-[8%] w-[100%] border-b border-white text-[#FFF] bg-[#0C633D] outline-none" 
             onChange={(e) => (setTipo(e.target.value))}>
-            <option value='P'>Pix</option>
-            <option value='D'>Depósito</option>
-            <option value='T'>Transferência</option>
+            <option className='text-[#FFF]' value='P'>Pix</option>
+            <option className='text-[#FFF]' value='D'>Depósito</option>
+            <option className='text-[#FFF]' value='T'>Transferência</option>
           </select>
           <div className='flex justify-center'>
             {/* fazer 'if para verificar se a conta pagadora tem saldo necessário' */}

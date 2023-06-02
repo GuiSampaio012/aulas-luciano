@@ -13,6 +13,7 @@ const NavBar = ({deslogar}) => {
     else{
         chave = 'deu ruim'
     }
+
     useEffect(() =>{
         console.log(chave);
         axios.post(`http://127.0.0.1:8000/auth/jwt/verify/`, {token: chave})
@@ -27,17 +28,15 @@ const NavBar = ({deslogar}) => {
     },[])
     return (
     <>
-        <div className="flex justify-between w-screen bg-slate-800 p-4">
-            <ul className="flex justify-around w-screen">
+        <div className="justify-between w-[100%] bg-slate-800 p-4">
+            <ul className="flex justify-around w-[100%]">
                 <li><Link className="text-white" to="/">Home</Link></li>
-                <li><Link className="text-white" to="/transferencia">Transferências</Link></li>
+                {/* <li><Link className="text-white" to="/transferencia">Transferências</Link></li> */}
+                {logado? <li><Link className="text-white" to="/transferencia">Transferências</Link></li>: null}
                 {logado?<li><button onClick={deslogar} className="text-white">Deslogar</button></li>:
                 <li><Link className="text-white" to="/login">Login</Link></li>}
-                
-                {/* <li><button onClick={}> Logout </button></li> */}
             </ul>    
         </div>      
-        <></>
     </>
     );
 }
