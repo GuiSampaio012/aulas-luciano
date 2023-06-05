@@ -44,7 +44,6 @@ class Endereco(models.Model):
     estado = models.CharField(max_length=30)
         
 class Contas(models.Model):
-    
     ATIVA = 'A'
     DESATIVADA = 'D'
     ATIVA_CHOICES = (
@@ -62,7 +61,6 @@ class Contas(models.Model):
     # preco = models.DecimalField(validators=[MinValueValidator(1,message='O preço deve ser igual ou maior que 1 real'),MaxValueValidator(1000)], max_digits=6, decimal_places=2)
     saldo = models.IntegerField()
     
-    
     def __str__(self) -> str:
         return self.numero
     
@@ -70,7 +68,6 @@ class Contas(models.Model):
         verbose_name_plural = "Contas"
         
 class Transferencias(models.Model):
-    
     DEPOSITO = 'D'
     TRANFERENCIA = 'T'
     PIX = 'P'
@@ -91,6 +88,15 @@ class Transferencias(models.Model):
     class Meta:
         verbose_name_plural = "Transferencias" 
         
+class Cartao(models.Model):
+    numero = models.CharField(max_length=10)
+    validade = models.CharField(max_length=10)
+    cvv = models.CharField(max_length=8)
+    conta_cartao = models.ForeignKey(Contas,on_delete=models.CASCADE)
 
-               
+    def __str__(self) -> str:
+        return self.numero
+    
+    class Meta: 
+        verbose_name_plural = "Cartões"               
             

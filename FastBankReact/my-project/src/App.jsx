@@ -13,7 +13,7 @@ import Transferencia from './pages/transferencia'
 function App() {
   const [count, setCount] = useState(0)
   const navigate = useNavigate()
-  const [logado, setLogado] = useState(false)
+  
 
   const logar = (login, senha) => {
     // essa funcão LOGA
@@ -23,12 +23,10 @@ function App() {
     }).then(res => {
       localStorage.setItem('dados',JSON.stringify(res.data))
       navigate('/')
-      setLogado(true)
     })
-    
-    
-    console.log('function logar:');
+    .catch((res)=>{alert('deu errado, verifique seu email e senha e tente novamente...')})
 
+    console.log('function logar:');
   }
 
 
@@ -45,30 +43,21 @@ function App() {
     //1 - limpar localstorage
     localStorage.clear()
     //2 - alterar o state setLogado
-    setLogado(false)
     console.log('deslogouuuuu')
-    alert(logado)
-    navigate('/')
     //3 - redirecionar para o login
+    navigate(0)
   }
 
-  // useEffect(()=>{
-  //   if(logado==false){
-  //     navigate('/')
-  //   }
-  //   else{
-  //     setLogado(true)
-  //   }
-  // },[logado])
 
   return (
     <>
-      {window.location.pathname == '/login' ? null : <NavBar logado={logado} deslogar={deslogar}/>}
+      {/* {window.location.pathname == '/login' ? null : <NavBar deslogar={deslogar}/>} */}
+      {window.location.pathname == '/login' || window.location.pathname == '/cadastro'? null : <NavBar deslogar={deslogar}/>}
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/login' element={<Login onClick={logar}/>} />
         <Route path='/cadastro' element={<Cadastrar/>} />
-        <Route path='/transferencia' element={<Transferencia logado={logado}/>} />
+        <Route path='/transferencia' element={<Transferencia/>} />
       </Routes>
     </>
   )
