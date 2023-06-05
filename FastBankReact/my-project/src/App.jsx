@@ -24,10 +24,9 @@ function App() {
       localStorage.setItem('dados',JSON.stringify(res.data))
       navigate('/')
     })
-    
-    
-    console.log('function logar:');
+    .catch((res)=>{alert('deu errado, verifique seu email e senha e tente novamente...')})
 
+    console.log('function logar:');
   }
 
 
@@ -45,9 +44,8 @@ function App() {
     localStorage.clear()
     //2 - alterar o state setLogado
     console.log('deslogouuuuu')
-    alert('DESLOGOU')
-    navigate('/login')
     //3 - redirecionar para o login
+    navigate(0)
   }
 
 

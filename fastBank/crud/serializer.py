@@ -26,5 +26,5 @@ class ContasSerializer(serializers.ModelSerializer):
 class TransferenciasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transferencias
-        fields = ['id','valor_enviado', 'conta_transferencia', 'tipo', 'data_hora','conta_remetente']
+        fields = ['id','valor_enviado', 'conta_transferencia' ,'conta_remetente', 'tipo', 'data_hora']
 

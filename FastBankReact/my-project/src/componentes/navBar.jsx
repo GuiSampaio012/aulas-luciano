@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const NavBar = ({deslogar}) => {
     const [logado,setLogado] = useState(false)
-
     const acesso = localStorage.getItem("dados")
     let chave =""
     if (acesso) {

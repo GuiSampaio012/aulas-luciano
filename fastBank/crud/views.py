@@ -121,12 +121,7 @@ class ListarContas(ListCreateAPIView):
         else: 
             print(serializer.errors)
             return Response(serializer.data)
-            
-        # serializer = ContasSerializer(criar)
-        # return Response(serializer.data)
-    
 
-        # TOKEN = META.get      
         
     
 class DetalharContas(RetrieveUpdateDestroyAPIView):
@@ -168,6 +163,20 @@ class DetalharEndereco(RetrieveUpdateDestroyAPIView):
 class ListarTransferencias(ListCreateAPIView):
     queryset = Transferencias.objects.all()
     serializer_class = TransferenciasSerializer
+    def get_queryset(self):
+        # criando um filtro para acessar a url com um parametro
+        filtro = self.request.query_params.get('filtro')
+        # pegando o valor do parametro e comparando com o id do um cliente da conta
+        resultado_conta_transferencia = Transferencias.objects.filter(conta_transferencia=filtro)
+        # pegando o valor do parametro e comparando com o numero da conta
+        resultado_conta_remetente = Transferencias.objects.filter(conta_remetente=filtro)
+        # se o numero passado for igual o da conta, ele retornara (continua na linha abaixo)
+        # os dados da conta especifica, caso não, ele retornara todas as contas
+        if resultado_conta_transferencia:
+            return resultado_conta_transferencia
+        if resultado_conta_remetente:
+            return resultado_conta_remetente
+        return Transferencias.objects.all()
        
 class DetalharTransferencias(RetrieveUpdateDestroyAPIView):
     queryset = Transferencias.objects.all()
