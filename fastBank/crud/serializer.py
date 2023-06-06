@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Clientes, Endereco, Contas, Transferencias
+from .models import Clientes, Endereco, Contas, Transferencias, Cartao
 from djoser.serializers import UserCreateSerializer
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
@@ -28,3 +28,7 @@ class TransferenciasSerializer(serializers.ModelSerializer):
         model = Transferencias
         fields = ['id','valor_enviado', 'conta_transferencia' ,'conta_remetente', 'tipo', 'data_hora']
 
+class CartaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cartao
+        fields = ['id','numero', 'validade' ,'cvv', 'conta_cartao']

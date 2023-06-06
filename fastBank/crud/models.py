@@ -89,10 +89,10 @@ class Transferencias(models.Model):
         verbose_name_plural = "Transferencias" 
         
 class Cartao(models.Model):
-    numero = models.CharField(max_length=10)
-    validade = models.CharField(max_length=10)
-    cvv = models.CharField(max_length=8)
-    conta_cartao = models.ForeignKey(Contas,on_delete=models.CASCADE)
+    numero = models.CharField(max_length=16)
+    validade = models.DateField()
+    cvv = models.CharField(max_length=3)
+    conta_cartao = models.ForeignKey(Contas,on_delete=models.PROTECT)
 
     def __str__(self) -> str:
         return self.numero

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Clientes, Endereco, Contas, Transferencias
-from .serializer import ClienteSerializer, EnderecoSerializer, ContasSerializer, TransferenciasSerializer
+from .models import Clientes, Endereco, Contas, Transferencias,Cartao
+from .serializer import ClienteSerializer, EnderecoSerializer, ContasSerializer, TransferenciasSerializer, CartaoSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -86,26 +86,8 @@ class ListarContas(ListCreateAPIView):
         teste = dados.copy()
         filtro = Clientes.objects.get(id=teste['cliente_conta'])
         print(filtro)
-        # filtroAtiva = Contas.objects.get(Contas.ativa)
-        # filtroSenha = Contas.objects.get(Contas.senha)
-        # filtroLimite = Contas.objects.get(Contas.limite)
-        # filtroSaldo = Contas.objects.get(Contas.saldo)
-        # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=filtroAtiva, senha=filtroSenha, limite=filtroLimite, saldo=filtroSaldo)
-
-
         teste['agencia'] = '171'
         teste['conta'] = stringnova
-
-        # criar = Contas.objects.create(cliente_conta=filtro, agencia='171', numero=stringnova, ativa=dados['ativa'].title(), senha=(dados['senha']), limite=dados['limite'], saldo=dados['saldo'])
-        # nova_conta = {'cliente_conta': filtro, 'agencia': '171', 'ativa': 'A', 'senha': dados['senha'], 'limite': dados['limite'], 'saldo': dados['saldo'] }
-        # nova_conta.cliente_conta = filtro
-        # nova_conta.agencia = '171'
-        # nova_conta.numero = stringnova
-        # nova_conta.ativa = dados['ativa'].title()
-        # nova_conta.senha = dados['senha']
-        # nova_conta.limite = dados['limite']
-        # nova_conta.saldo = dados['saldo']
-        # print(nova_conta.numero)
         # estava usando "= make_password" para criptografar a senha
         print(teste['saldo'])
         serializer = ContasSerializer(Contas, teste)
@@ -182,51 +164,17 @@ class DetalharTransferencias(RetrieveUpdateDestroyAPIView):
     queryset = Transferencias.objects.all()
     serializer_class = TransferenciasSerializer   
     
-   
-   
-   
-      
-   
-   
-
-# class ClienteViewSet(viewsets.ModelViewSet):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = Clientes.objects.all()
-#     serializer_class = ClientesSerializer  
 
 
-  
-# class DetalharPedidos(RetrieveUpdateDestroyAPIView):
-#     queryset = Pedidos.objects.all()
-#     serializer_class = PedidosSerializer
-#     # def delete(self, request, pk):
-#     #     pedidoItens = get_object_or_404(PedidosItens, pk=pk)
-#     #     produto = get_object_or_404(Produtos, pk=pk)
-#     #     produto.qtd = produto.qtd + pedidoItens.qtd
-#     #     produto.save()
-#     #     pedidoItens.delete()
-#     #     return Response(status=status.HTTP_204_NO_CONTENT) 
+class ListarCartao(ListCreateAPIView):
+    # permission_classes = (IsAuthenticated, )
+    queryset = Cartao.objects.all()
+    serializer_class = CartaoSerializer
+
+       
+class DetalharCartao(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = Cartao.objects.all()
+    serializer_class = CartaoSerializer 
    
-# class ListarPedidosItens(ListCreateAPIView):
-#     queryset = PedidosItens.objects.all()
-#     serializer_class = PedidosItensSerializer
-#     def post(self, request):
-#         # pedidoItens = get_object_or_404(PedidosItens)
-#         produto = get_object_or_404(Produtos, pk=request.data["fk_produtos"])
-#         print(produto.nome)
-#         produto.qtd -= int(request.data["qtd"])
-#         produto.save()
-#         produto = get_object_or_404(Produtos, pk=request.data["fk_pedidos"])
-#         return self.create(request)
-      
-# class DetalharPedidosItens(RetrieveUpdateDestroyAPIView):
-#     queryset = PedidosItens.objects.all()
-#     serializer_class = PedidosItensSerializer
-#     def delete(self, request, pk):
-#         pedidoItens = get_object_or_404(PedidosItens, pk=pk)
-#         produto = get_object_or_404(Produtos, pk=pedidoItens.fk_produtos.id)
-#         produto.qtd = produto.qtd + pedidoItens.qtd
-#         produto.save()
-#         pedidoItens.delete()   
-#         return Response(status=status.HTTP_204_NO_CONTENT)     
-# Create your views here.
+   
