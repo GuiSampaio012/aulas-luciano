@@ -19,14 +19,14 @@ const ProdutoDetalhe = () => {
     // let navigate = useNavigate();
     return (
         <>
-            <h1 className='text-black'>Produto {information.nome} </h1>
-            
-            <div className='w-screen h-screen bg-[#3D8C64]'>
-                <img className='w-40 sm:w-[300px] h-[180px] sm:h-[220px] mb-5 p-2' src={information.foto}/>
-                <div>{information.preco}</div>
-                <button  className=' border border-white rounded-xl bg-white w-["100px"] h-["100px"]'> adiconar ao carrinho</button>
+            <div className='w-[100%] flex justify-center items-center h-screen bg-[#3D8C64]'>
+                <div className=' w-[50%] rounded-lg h-[50%] flex flex-col justify-center items-center bg-[#80CBA7] '>
+                    <h1 className='text-black'>Produto {information.nome} </h1>
+                    <img className=' w-40 sm:w-[300px] h-[180px] sm:h-[220px] mb-5 p-2' src={information.foto}/>
+                    <div>{information.preco}</div>
+                    <button  className=' border border-white rounded-xl bg-white w-["100px"] h-["100px"]'> adiconar ao carrinho</button>
+                </div>
             </div>
-            
         </>
     )
 }

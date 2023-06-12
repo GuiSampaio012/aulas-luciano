@@ -4,6 +4,70 @@ import {useParams} from 'react-router-dom';
 
 const Carrinho = () => {
     const [information, setInformation] = useState([])
+    const [cartItems, setCartItems] = useState([]);
+
+    const products = [
+        { id: 1, name: 'Camiseta', price: 29.99 },
+        { id: 2, name: 'Calça Jeans', price: 59.99 },
+        { id: 3, name: 'Tênis', price: 89.99 },
+        { id: 4, name: 'Moletom', price: 49.99 },
+        { id: 5, name: 'Boné', price: 19.99 },
+    ];
+    
+    const addItemToCart = (product) => {
+        const existingItem = cartItems.find((item) => item.id === product.id);
+    
+        if (existingItem) {
+          const updatedCartItems = cartItems.map((item) => {
+            if (item.id === product.id) {
+              return { ...item, quantity: item.quantity + 1 };
+            }
+            return item;
+          });
+          setCartItems(updatedCartItems);
+        } else {
+          setCartItems([...cartItems, { ...product, quantity: 1 }]);
+        }
+    };
+    
+    const removeItemFromCart = (productId) => {
+        const updatedCartItems = cartItems.filter((item) => item.id !== productId);
+        setCartItems(updatedCartItems);
+    };
+    
+    const updateQuantity = (productId, newQuantity) => {
+        const updatedCartItems = cartItems.map((item) => {
+          if (item.id === productId) {
+            return { ...item, quantity: newQuantity };
+          }
+          return item;
+        });
+        setCartItems(updatedCartItems);
+    };
+    
+    const incrementQuantity = (productId) => {
+        const updatedCartItems = cartItems.map((item) => {
+          if (item.id === productId) {
+            return { ...item, quantity: item.quantity + 1 };
+          }
+          return item;
+        });
+        setCartItems(updatedCartItems);
+    };
+    
+    const decrementQuantity = (productId) => {
+        const updatedCartItems = cartItems.map((item) => {
+          if (item.id === productId && item.quantity > 1) {
+            return { ...item, quantity: item.quantity - 1 };
+          }
+          return item;
+        });
+        setCartItems(updatedCartItems);
+    };
+    
+    const checkout = () => {
+        console.log('Pedido concluído!');
+    };
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/backPalmeiras/produtos/${id}`)
@@ -20,7 +84,32 @@ const Carrinho = () => {
     return (
         <>
             <div className='w-screen h-screen bg-[#3D8C64]'>
-                
+                <div>
+                    <h1>Carrinho de Compras</h1>
+                    <ul>
+                        {products.map((product) => (
+                        <li key={product.id}>
+                            <span>{product.name}</span>
+                            <span>{product.price}</span>
+                            <button onClick={() => addItemToCart(product)}>Adicionar</button>
+                        </li>
+                        ))}
+                    </ul>
+                    <h2>Itens no Carrinho:</h2>
+                    <ul>
+                        {cartItems.map((item) => (
+                        <li key={item.id}>
+                            <span>{item.name}</span>
+                            <span>{item.price}</span>
+                            <button onClick={() => removeItemFromCart(item.id)}>Remover</button>
+                            <button onClick={() => decrementQuantity(item.id)}>-</button>
+                            <span>{item.quantity}</span>
+                            <button onClick={() => incrementQuantity(item.id)}>+</button>
+                        </li>
+                        ))}
+                    </ul>
+                    <button onClick={checkout}>Fechar Pedido</button>
+                </div>
             </div>
         </>
     )

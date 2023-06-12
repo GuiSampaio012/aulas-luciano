@@ -4,7 +4,9 @@ const Botao = ({children, onClick, type}) => {
     return ( 
         <>
             <button type={type} onClick={onClick} className="p-3 rounded-xl
-             bg-pink-500 text-white font-bold mt-2"> {children}
+             text-[#FFF] mt-3
+             bg-[#3D8C64] font-bold p-3 rounded-xl 
+             text-xl "> {children}
             </button>
         </>
      );

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Login from './pages/login'
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import Home from './pages/home'
 import NavBar from './componentes/navBar'
 import axios from 'axios'
 import Carrinho from './pages/carinho'
@@ -86,8 +85,7 @@ function App() {
       {/* chamar a navBar aqui */}
       <NavBar/>
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/login' element={<Login onClick={logar}/>}/>
+        <Route path='/' element={<Login onClick={logar}/>}/>
         <Route path='/carrinho' element={<Carrinho/>}/>
         <Route path='/produtos' element={<Produtos/>}/>
         <Route path='/produtodetalhe/:id' element={<ProdutoDetalhe/>}/>

@@ -11,6 +11,8 @@ urlpatterns = [
     path('endereco/<int:pk>', view=views.DetalharEndereco.as_view()),
     path('transferencia/', view=views.ListarTransferencias.as_view()),
     path('transferencia/<int:pk>', view=views.DetalharTransferencias.as_view()),
+    path('cartao/', view=views.ListarCartao.as_view()),
+    path('cartao/<int:pk>', view=views.DetalharCartao.as_view()),
 ]
 
 

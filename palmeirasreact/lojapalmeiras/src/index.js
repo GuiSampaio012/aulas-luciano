@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Login from './componentes/pages/login';
 import Cadastrar from './componentes/pages/cadastrar';
-import Produtos from './componentes/pages/inicial';
+import Produtos from './componentes/pages/produtos';
 import ProdutoDetalhe from './componentes/pages/produtoDetalhe';
 
 const router = createBrowserRouter([

@@ -60,8 +60,6 @@ class ListarContas(ListCreateAPIView):
         if resultado_idCliente_conta:
             return resultado_idCliente_conta
         return Contas.objects.all()
-        
-
     
     def get(self, request, *args, **kwargs):
             #QUEM FOI O AUTOR DO REQUEST ???
@@ -167,49 +165,71 @@ class DetalharTransferencias(RetrieveUpdateDestroyAPIView):
 
 
 class ListarCartao(ListCreateAPIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     queryset = Cartao.objects.all()
     serializer_class = CartaoSerializer
 
-    #def create(self, request, *args, **kwargs):
-    #     dados = request.data
-    #     print(dados['conta_cartao'])
-    #     list = []
-    #     for i in range(0,16):
-    #         numero = random.randint(0,9)
-    #         list.append(numero)
-    #     stringnova = ""
-    #     for i in list:
-    #         stringnova += str(i)
+    def get(self, request, *args, **kwargs):
+        #QUEM FOI O AUTOR DO REQUEST ???
+        token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+        print(token)
+        dados = AccessToken(token)
+        usuario = dados['user_id']
+        print(usuario)
+        listaConta = Contas.objects.filter(cliente_conta_id=usuario)
+        print(listaConta)
+        return super().list(request, *args, **kwargs)
 
-    #     list2 = []
-    #     for i in range(0,3):
-    #         cvv = random.randint(0,9)
-    #         list2.append(cvv)
-    #     stringnova2 = ""
-    #     for i in list2:
-    #         stringnova2 += str(i)
+    # def get(self, request, *args, **kwargs):
+    #     #QUEM FOI O AUTOR DO REQUEST ???
+    #     token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+    #     print(token)
+    #     dados = AccessToken(token)
+    #     usuario = dados['user_id']
+    #     print(usuario)
+    #     listaContaCartao = Cartao.objects.filter(conta_cartao_id=usuario)
+    #     print(listaContaCartao)
+    #     return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        dados = request.data
+        print(dados['conta_cartao'])
+        list = []
+        for i in range(0,16):
+            numero = random.randint(0,9)
+            list.append(numero)
+        stringnova = ""
+        for i in list:
+            stringnova += str(i)
+
+        list2 = []
+        for i in range(0,3):
+            cvv = random.randint(0,9)
+            list2.append(cvv)
+        stringnova2 = ""
+        for i in list2:
+            stringnova2 += str(i)
 
 
-    #     teste = dados.copy()
-    #     filtro = Cartao.objects.get(id=teste['conta_cartao'])
-    #     print(filtro)
-    #     teste['agencia'] = '171'
-    #     teste['cartao'] = stringnova
-    #     # estava usando "= make_password" para criptografar a senha
-    #     print(teste['numero'])
-    #     serializer = CartaoSerializer(Cartao, teste)
-    #     if serializer.is_valid():
-    #             novo_cartao = Cartao()
-    #             novo_cartao.conta_cartao = filtro
-    #             novo_cartao.validade = teste['validade']
-    #             novo_cartao.numero = stringnova
-    #             novo_cartao.cvv = stringnova2
-    #             novo_cartao.save()
-    #             return Response(teste)
-    #     else: 
-    #         print(serializer.errors)
-    #         return Response(serializer.data)
+        teste = dados.copy()
+        filtro = Cartao.objects.get(id=teste['conta_cartao'])
+        print(filtro)
+        teste['cvv'] = stringnova2
+        teste['cartao'] = stringnova
+        # estava usando "= make_password" para criptografar a senha
+        print(teste['numero'])
+        serializer = CartaoSerializer(Cartao, teste)
+        if serializer.is_valid():
+                novo_cartao = Cartao()
+                novo_cartao.conta_cartao = filtro
+                novo_cartao.validade = '06/01/2030'
+                novo_cartao.numero = stringnova
+                novo_cartao.cvv = stringnova2
+                novo_cartao.save()
+                return Response(teste)
+        else: 
+            print(serializer.errors)
+            return Response(serializer.data)
        
 class DetalharCartao(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated, )
