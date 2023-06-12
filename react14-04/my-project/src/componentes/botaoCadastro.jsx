@@ -1,12 +1,11 @@
 import React, {Component} from "react";
 
-
-const Botaocad = (props) => {
+const Botaocad = ({children, onClick}) => {
     return (
         <div>
-            <button type="button" className="m-3 h-9  border border-white text-[#FFF]
-             bg-[#3D8C64] p-7 rounded-full flex items-center 
-             text-xl "> {props.placeholder} </button>
+            <button type="button" onClick={onClick}  className=" text-[#FFF]
+             bg-[#3D8C64] font-bold p-3 rounded-xl 
+             text-xl "> {children} </button>
         </div>
     )
 }

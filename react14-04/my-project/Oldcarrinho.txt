@@ -5,33 +5,14 @@ import {useParams} from 'react-router-dom';
 const Carrinho = () => {
     const [information, setInformation] = useState([])
     const [cartItems, setCartItems] = useState([]);
-    const [products, setProducts] = useState([]);
 
-    useEffect(()=>{
-      if (localStorage.getItem('carrinho') != undefined){
-        setProducts(JSON.parse(localStorage.getItem('carrinho')))
-      }else{
-        setProducts([
-          { id: 1, nome: 'Camiseta', price: 29.99 },
-          { id: 2, nome: 'Calça Jeans', price: 59.99 },
-          { id: 3, nome: 'Tênis', price: 89.99 },
-          { id: 4, nome: 'Moletom', price: 49.99 },
-          { id: 5, nome: 'Boné', price: 19.99 },
-      ])
-      }
-    },[])
-    
-    useEffect(()=>{
-      console.log("prod:");
-      console.log(products)
-    }, [products])
-    // const products = [
-    //     { id: 1, nome: 'Camiseta', price: 29.99 },
-    //     { id: 2, nome: 'Calça Jeans', price: 59.99 },
-    //     { id: 3, nome: 'Tênis', price: 89.99 },
-    //     { id: 4, nome: 'Moletom', price: 49.99 },
-    //     { id: 5, nome: 'Boné', price: 19.99 },
-    // ];
+    const products = [
+        { id: 1, name: 'Camiseta', price: 29.99 },
+        { id: 2, name: 'Calça Jeans', price: 59.99 },
+        { id: 3, name: 'Tênis', price: 89.99 },
+        { id: 4, name: 'Moletom', price: 49.99 },
+        { id: 5, name: 'Boné', price: 19.99 },
+    ];
     
     const addItemToCart = (product) => {
         const existingItem = cartItems.find((item) => item.id === product.id);
@@ -78,16 +59,17 @@ const Carrinho = () => {
         console.log('Pedido concluído!');
     };
 
-    // useEffect(() => {
-    //     axios.get(`http://127.0.0.1:8000/backPalmeiras/produtos/${id}`)
-    //         .then((res) => {
-    //             console.log(res.data)
-    //             setInformation(res.data)
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/backPalmeiras/produtos/${id}`)
+            .then((res) => {
+                console.log(res.data)
+                setInformation(res.data)
 
-    //         })
-    // }, [])
-    // const {id} = useParams();
+            })
+    }, [])
+    const {id} = useParams();
 
+    
 
     return (
         <>
@@ -95,29 +77,26 @@ const Carrinho = () => {
                 <div className='bg-[#D4F8E3]'>
                   <h1>Carrinho de Compras</h1>
                   <ul>
-                      {products.map((product) =>
-                      <div>
-                        <li className='' key={product.id}>        
-                          <span>{product.nome} </span>
-                          <img src={product.foto}/>
-                          <span>{product.precoU} </span>
+                      {products.map((product) => (
+                      <li key={product.id}>
+                          <span>{product.name}</span>
+                          <span>{product.price}</span>
                           <button onClick={() => addItemToCart(product)}>Adicionar</button>
-                        </li>
-                      </div> 
-                      )}
+                      </li>
+                      ))}
                   </ul>
                   <h2>Itens no Carrinho:</h2>
                   <ul className=''>
-                      {cartItems.map((item) => 
+                      {cartItems.map((item) => (
                       <li key={item.id}>
-                          <span>{item.nome}</span>
-                          <span>{item.precoU}</span>
+                          <span>{item.name}</span>
+                          <span>{item.price}</span>
                           <button onClick={() => removeItemFromCart(item.id)}>Remover</button>
                           <button onClick={() => decrementQuantity(item.id)}>-</button>
                           <span>{item.quantity}</span>
                           <button onClick={() => incrementQuantity(item.id)}>+</button>
                       </li>
-                      )}
+                      ))}
                   </ul>
                   <button onClick={checkout}>Fechar Pedido</button>
                 </div>
