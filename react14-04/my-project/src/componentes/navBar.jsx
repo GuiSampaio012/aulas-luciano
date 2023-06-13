@@ -45,7 +45,7 @@ const NavBar = ({dadosUSer}) => {
                 <li><Link className="text-white" to="/produtos">Produtos</Link></li>
                 {logado? <li><button onClick={deslogar} className="text-white">Deslogar</button></li>:
                 <li><Link className="text-white" to="/">Login</Link></li>}
-                {logado?<li><text className="text-white">{dadosUSer}</text></li>:null}
+                {logado?<li><p className="text-white">{dadosUSer}</p></li>:null}
                 <li><Link className="text-white" to="/carrinho"> Carrinho</Link></li>
                 {/* <li><button onClick={}> Logout </button></li> */}
             </ul>

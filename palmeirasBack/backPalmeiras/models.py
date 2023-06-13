@@ -1,4 +1,10 @@
+
 from django.db import models
+from django.contrib import admin
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+from .managers import CustomUserManager
+from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 
@@ -16,13 +22,20 @@ class Produtos(models.Model):
     foto = models.ImageField(upload_to="produtos",null = True, blank=True)
     categoria = models.ForeignKey(Categorias, on_delete=models.CASCADE)
     
-class Clientes(models.Model):
+class Clientes(AbstractUser):
     nome = models.CharField(max_length=100)
     email = models.EmailField(unique = True)
-    data_nascimento = models.DateField()
-    cpf = models.CharField(max_length=14)
-    data_cadastro = models.DateField(auto_now=True)   
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["nome"]
+    objects = CustomUserManager()
     
+    def __str__(self) -> str:
+        return self.nome
+    
+    class Meta:
+        verbose_name_plural = "Clientes"
+
+        
 class Endereco(models.Model):
     logradouro = models.CharField(max_length=255)
     numero = models.CharField(max_length=10)

@@ -16,7 +16,7 @@ class ProdutoSerializer(serializers.ModelSerializer):
 class ClientesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Clientes
-        fields = ['id', 'nome', 'email', "data_nascimento", 'cpf', 'data_cadastro']
+        fields = ['id', 'nome', 'email']
         
         
 class EnderecosSerializer(serializers.ModelSerializer):

@@ -8,6 +8,7 @@ const Cadastrar = () => {
     const navigate = useNavigate();
 
     const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [semiSenha, setSemiSenha] = useState('');
     const [token, setToken] = useState('')
@@ -32,7 +33,8 @@ const Cadastrar = () => {
         // essa funcão CADASTRA
         if(password == semiSenha) {
             axios.post('http://127.0.0.1:8000/auth/users/', {
-            usernane:nome,
+            nome:nome,
+            email:email,
             password: password
             }).then((res) =>{ 
                 if(res.status==200||res.status==201) {
@@ -46,6 +48,7 @@ const Cadastrar = () => {
                         axios.get('http://127.0.0.1:8000/auth/users/me/',  {headers:{Authorization: 'JWT ' + res.data.access}})
                         .then((response) => {
                             console.log(response.data)
+                            navigate('/produtos')
                         })    
                     })
                     
@@ -64,7 +67,8 @@ const Cadastrar = () => {
         return (
             <div className='w-screen h-screen flex justify-center items-center bg-[#3D8C64]'>
                 <div className='rounded-lg flex  justify-center items-center flex-col w-4/6 bg-[#0C633D] p-12'>
-                    <InputV onChange={(e) => setNome(e.target.value)} placeholder="username:" ></InputV>
+                    <InputV onChange={(e) => setNome(e.target.value)} placeholder="nome:" ></InputV>
+                    <InputV onChange={(e) => setEmail(e.target.value)} placeholder="email:" ></InputV>
                     <InputV onChange={(e) => setPassword(e.target.value)} placeholder="senha:" ></InputV>
                     <InputV onChange={(e) => setSemiSenha(e.target.value)} placeholder="repita a senha:" ></InputV>
                     <Botaocad onClick={cadastrar}>CADASTRO</Botaocad>

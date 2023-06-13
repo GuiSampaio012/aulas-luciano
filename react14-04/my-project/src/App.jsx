@@ -17,7 +17,7 @@ function App({}){
   const logar = (login, senha) => {
     // essa funcão LOGA
     axios.post('http://127.0.0.1:8000/auth/jwt/create', {
-      username: login,
+      email: login,
       password: senha
     }).then(res => {
       localStorage.setItem('dados',JSON.stringify(res.data))
@@ -59,6 +59,11 @@ function App({}){
       itens = JSON.parse(localStorage.getItem('carrinho'))
       itens.map((item) => {
         if (item.id == idProduto) {
+          function soma(){
+            var res = parseInt(item.precoU) + parseInt(item.precoU/item.qtd);
+            return res;
+          }
+          item.precoU = soma()  
           item.qtd += 1
           itemExistente = false
           alert('item adiconado ao carrinho')
@@ -73,6 +78,7 @@ function App({}){
     }
     console.log(itens)
     localStorage.setItem('carrinho', JSON.stringify(itens))
+    alert('item adiconado ao carrinho')
     setMexeuCarrinho(!mexeuCarrinho)
   }
 
@@ -123,7 +129,7 @@ function App({}){
         <Route path='/carrinho' element={<Carrinho/>}/>
         <Route path='/produtos' element={<Produtos/>}/>
         <Route path='/produtodetalhe/:id' element={<ProdutoDetalhe comprar={comprar}/>}/>
-        <Route path='/cadastro' element={<Cadastrar/>}/>
+        <Route path='/cadastro' element={<Cadastrar removerCarrinho={removerCarrinho}/>}/>
       </Routes>
     </>
   )
