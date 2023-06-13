@@ -33,10 +33,11 @@ function App({}){
       axios.get('http://127.0.0.1:8000/auth/users/me/',  {headers:{Authorization: 'JWT ' + JSON.parse(localStorage.getItem('dados')).access}})
       .then((response) => {
           console.log(response.data.username)
-          setDadosUSer(response.data.username)
+          setDadosUSer(response.data.nome)
           console.log(response.data)
       }).catch((res)=>{
         console.log(res);
+        navigate(0)
         refresh()
       })
     }

@@ -21,30 +21,14 @@ const Carrinho = ({removerCarrinho}) => {
       console.log(products)
     }, [products])
     
-    // const addItemToCart = (product) => {
-    //     const existingItem = cartItems.find((item) => item.id === product.id);
-    //     if (existingItem) {
-    //       const updatedCartItems = cartItems.map((item) => {
-    //         if (item.id === product.id) {
-    //           return { ...item, quantity: item.quantity + 1 };
-    //         }
-    //         return item;
-    //       });
-    //       setCartItems(updatedCartItems);
-    //     } else {
-    //       setCartItems([...cartItems, { ...product, quantity: 1 }]);
-    //     }
-    // };
-    
-    const removeItemFromCart = (productId) => {
-        const updatedCartItems = cartItems.filter((item) => item.id !== productId);
-        localStorage.setItem('carrinho', JSON.stringify(updatedCartItems))
-        setCartItems(updatedCartItems);
+    const removerItem = (productId) => {
+        const atualizadoCartItems = cartItems.filter((item) => item.id !== productId);
+        localStorage.setItem('carrinho', JSON.stringify(atualizadoCartItems))
+        setCartItems(atualizadoCartItems);
     };
     
-    
-    const incrementQuantity = (productId) => {
-        const updatedCartItems = cartItems.map((item) => {
+    const aumentarQtd = (productId) => {
+        const atualizadoCartItems = cartItems.map((item) => {
           if (item.id === productId) {
             function soma(){
               var res = parseInt(item.precoU) + parseInt(item.precoU/item.qtd);
@@ -54,12 +38,12 @@ const Carrinho = ({removerCarrinho}) => {
           }
           return item;
         });
-        localStorage.setItem('carrinho', JSON.stringify(updatedCartItems))
-        setCartItems(updatedCartItems);
+        localStorage.setItem('carrinho', JSON.stringify(atualizadoCartItems))
+        setCartItems(atualizadoCartItems);
     };
     
-    const decrementQuantity = (productId) => {
-        const updatedCartItems = cartItems.map((item) => {
+    const diminuirQtd = (productId) => {
+        const atualizadoCartItems = cartItems.map((item) => {
           if (item.id === productId && item.qtd > 1) {
             function subtracao(){
               var res = parseInt(item.precoU) - parseInt(item.precoU/item.qtd);
@@ -67,18 +51,21 @@ const Carrinho = ({removerCarrinho}) => {
             }
             return { ...item, qtd: item.qtd - 1, precoU: subtracao()};
           }
+          else{
+            alert(' a quantidade não pode ser menos do que um produto, ou remova o produto')
+          }
 
           return item;
         });
-        localStorage.setItem('carrinho', JSON.stringify(updatedCartItems))
-        setCartItems(updatedCartItems);
+        localStorage.setItem('carrinho', JSON.stringify(atualizadoCartItems))
+        setCartItems(atualizadoCartItems);
     };
     
-    const checkout = () => {
+    const finalizar = () => {
         console.log('Pedido concluído!');
-        const updatedCartItems = []
+        const atualizadoCartItems = []
         localStorage.removeItem('carrinho')
-        setCartItems(updatedCartItems);
+        setCartItems(atualizadoCartItems);
         alert('parabéns pela realização da sua compra!!!')
         
     };
@@ -101,17 +88,17 @@ const Carrinho = ({removerCarrinho}) => {
                         <p className='mt-[10px] font-medium'>{item.nome}</p>
                         <img src={item.foto}/>
                         <p className='font-semibold'>esse é valor do item {item.precoU}R$</p>
-                        <button className='w-[70px] my-[3px] bg-[#000] text-[#fff]' onClick={() => removeItemFromCart(item.id)}>Remover</button>
-                        <button className='w-[50px] my-[3px] bg-[#000] text-[#fff]' onClick={() => decrementQuantity(item.id)}>-</button>
+                        <button className='w-[70px] my-[3px] bg-[#000] text-[#fff]' onClick={() => removerItem(item.id)}>Remover</button>
+                        <button className='w-[50px] my-[3px] bg-[#000] text-[#fff]' onClick={() => diminuirQtd(item.id)}>-</button>
                         <p className='font-medium' >{item.qtd}</p>
-                        <button className='w-[50px] my-[3px] bg-[#000] text-[#fff]' onClick={() => incrementQuantity(item.id)}>+</button>
+                        <button className='w-[50px] my-[3px] bg-[#000] text-[#fff]' onClick={() => aumentarQtd(item.id)}>+</button>
                     </li>
                     )}
                     {/* <li className='flex items-center flex-col content-center'> 
                       <p>valor total = {valorTotal}</p>
                     </li> */}
                   </ul>
-                  <button onClick={checkout}>Fechar Pedido</button>
+                  <button onClick={finalizar}>Fechar Pedido</button>
                 </div>
             </div>
         </>

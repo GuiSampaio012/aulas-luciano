@@ -18,6 +18,7 @@ const NavBar = ({dadosUSer}) => {
         //1 - limpar localstorage
         localStorage.clear()
         //2 - alterar o state setLogado
+        setLogado(false)
         console.log('deslogouuuuu')
         //3 - redirecionar para o login
         navigate(0)
@@ -37,6 +38,12 @@ const NavBar = ({dadosUSer}) => {
             }
         })
     },[])
+
+    useEffect(()=>{
+        if (dadosUSer!=null) {
+            setLogado(true)
+        }
+    },[dadosUSer])
     
     return ( 
     <>
@@ -45,7 +52,7 @@ const NavBar = ({dadosUSer}) => {
                 <li><Link className="text-white" to="/produtos">Produtos</Link></li>
                 {logado? <li><button onClick={deslogar} className="text-white">Deslogar</button></li>:
                 <li><Link className="text-white" to="/">Login</Link></li>}
-                {logado?<li><p className="text-white">{dadosUSer}</p></li>:null}
+                {logado?<li><p className="text-white">bem vindo {dadosUSer}</p></li>:null}
                 <li><Link className="text-white" to="/carrinho"> Carrinho</Link></li>
                 {/* <li><button onClick={}> Logout </button></li> */}
             </ul>

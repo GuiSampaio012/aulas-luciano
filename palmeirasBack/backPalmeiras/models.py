@@ -23,8 +23,9 @@ class Produtos(models.Model):
     categoria = models.ForeignKey(Categorias, on_delete=models.CASCADE)
     
 class Clientes(AbstractUser):
+    username = None
     nome = models.CharField(max_length=100)
-    email = models.EmailField(unique = True)
+    email = models.EmailField(_("email address"), unique=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["nome"]
     objects = CustomUserManager()
@@ -32,8 +33,8 @@ class Clientes(AbstractUser):
     def __str__(self) -> str:
         return self.nome
     
-    class Meta:
-        verbose_name_plural = "Clientes"
+    # class Meta:
+    #     verbose_name_plural = "Clientes"
 
         
 class Endereco(models.Model):

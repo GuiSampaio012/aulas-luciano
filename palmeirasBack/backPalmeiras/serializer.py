@@ -13,10 +13,10 @@ class ProdutoSerializer(serializers.ModelSerializer):
         fields = ['id', 'nome', 'descricao', 'preco', 'qtd_estoque', 'foto', 'categoria']
     # categoria = CategoriaSerializer()   
         
-class ClientesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Clientes
-        fields = ['id', 'nome', 'email']
+# class ClientesSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Clientes
+#         fields = ['id', 'nome', 'email']
         
         
 class EnderecosSerializer(serializers.ModelSerializer):
