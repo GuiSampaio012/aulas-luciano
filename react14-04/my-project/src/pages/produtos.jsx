@@ -4,16 +4,31 @@ import axios from "axios"
 
 const Produtos = () => {
     const [information, setInformation] = useState([])
+    const[token, setToken] = useState('')
+    const [dadosUSer, setDadosUSer] = useState('')
+
+    const pegartoken = () => {
+        const acesso = localStorage.getItem("dados")
+        let chave =""
+        if (acesso) {
+          chave = JSON.parse(acesso).access
+          setToken(chave)
+        }
+    }
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/backPalmeiras/produtos")
+        pegartoken()
+    },[])
+
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/backPalmeiras/produtos", 
+        {headers:{Authorization: 'JWT ' + token}})
             .then((res) => {
                 console.log(res.data)
                 setInformation(res.data)
-
+                setDadosUSer(response.data.nome)
             })
-    }, [])
-
+    }, [pegartoken])
 
     let navigate = useNavigate();
     return (
@@ -25,9 +40,9 @@ const Produtos = () => {
                             <img className='w-40 sm:w-[300px] h-[180px] sm:h-[220px] mb-5 p-2' src={information.foto} alt="" />
                             <h3 className='bg-[#A4D2BC] w-full'>{information.nome}</h3>
                             <div className="bg-red-500 w-full h-6 ">
-                            <button className='text-center' onClick={() => navigate(`/produtodetalhe/${information.id}`)}>
-                                Comprar
-                            </button>
+                                <button className=' w-full text-center' onClick={() => navigate(`/produtodetalhe/${information.id}`)}>
+                                    Comprar
+                                </button>
                             </div>
                         </div>
 

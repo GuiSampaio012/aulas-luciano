@@ -6,6 +6,7 @@ const NavBar = ({dadosUSer}) => {
     const navigate = useNavigate()
     const [logado,setLogado] = useState(false)
     const acesso = localStorage.getItem("dados")
+    const [palavra,setPalavra] = useState(false)
     let chave =""
     if (acesso) {
         chave = JSON.parse(acesso).access
@@ -21,7 +22,7 @@ const NavBar = ({dadosUSer}) => {
         setLogado(false)
         console.log('deslogouuuuu')
         //3 - redirecionar para o login
-        navigate(0)
+        navigate('/')
     }
 
 
@@ -41,9 +42,12 @@ const NavBar = ({dadosUSer}) => {
 
     useEffect(()=>{
         if (dadosUSer!=null) {
-            setLogado(true)
+            setPalavra(true)
         }
-    },[dadosUSer])
+        else{
+            setPalavra(false)
+        }
+    },[logado])
     
     return ( 
     <>

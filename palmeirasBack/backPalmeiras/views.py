@@ -16,6 +16,7 @@ class CategoriaDetalhe(RetrieveUpdateDestroyAPIView):
     serializer_class = CategoriaSerializer   
     
 class ProdutoList(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Produtos.objects.all()
     serializer_class = ProdutoSerializer
 
