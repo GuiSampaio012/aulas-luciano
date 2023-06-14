@@ -176,24 +176,25 @@ class ListarCartao(ListCreateAPIView):
         dados = AccessToken(token)
         usuario = dados['user_id']
         print(usuario)
-        listaConta = Contas.objects.filter(cliente_conta_id=usuario)
+        listaConta = Cartao.objects.filter(conta_cartao_id=usuario)
         print(listaConta)
         return super().list(request, *args, **kwargs)
 
-    # def get(self, request, *args, **kwargs):
-    #     #QUEM FOI O AUTOR DO REQUEST ???
-    #     token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
-    #     print(token)
-    #     dados = AccessToken(token)
-    #     usuario = dados['user_id']
-    #     print(usuario)
-    #     listaContaCartao = Cartao.objects.filter(conta_cartao_id=usuario)
-    #     print(listaContaCartao)
-    #     return super().list(request, *args, **kwargs)
+    def get_queryset(self):
+        # criando um filtro para acessar a url com um parametro
+        filtro = self.request.query_params.get('filtro')
+        # pegando o valor do parametro e comparando com o id do um cliente da conta
+        resultado_idCliente_conta = Cartao.objects.filter(conta_cartao=filtro)
+        # se o numero passado for igual o da conta, ele retornara (continua na linha abaixo)
+        # os dados da conta especifica, caso não, ele retornara todas as contas
+        if filtro != None:
+            return resultado_idCliente_conta
+        return Cartao.objects.all()
 
     def create(self, request, *args, **kwargs):
         dados = request.data
-        print(dados['conta_cartao'])
+        print(dados)
+        ClientesObject = Clientes.objects.get(pk=dados['conta_cartao'])
         list = []
         for i in range(0,16):
             numero = random.randint(0,9)
@@ -212,17 +213,14 @@ class ListarCartao(ListCreateAPIView):
 
 
         teste = dados.copy()
-        filtro = Cartao.objects.get(id=teste['conta_cartao'])
-        print(filtro)
         teste['cvv'] = stringnova2
-        teste['cartao'] = stringnova
+        teste['numero'] = stringnova
         # estava usando "= make_password" para criptografar a senha
-        print(teste['numero'])
         serializer = CartaoSerializer(Cartao, teste)
         if serializer.is_valid():
                 novo_cartao = Cartao()
-                novo_cartao.conta_cartao = filtro
-                novo_cartao.validade = '06/01/2030'
+                novo_cartao.conta_cartao = ClientesObject
+                novo_cartao.validade = '2023-06-01'
                 novo_cartao.numero = stringnova
                 novo_cartao.cvv = stringnova2
                 novo_cartao.save()

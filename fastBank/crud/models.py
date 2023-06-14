@@ -92,7 +92,7 @@ class Cartao(models.Model):
     numero = models.CharField(max_length=16)
     validade = models.DateField()
     cvv = models.CharField(max_length=3)
-    conta_cartao = models.ForeignKey(Contas,on_delete=models.PROTECT)
+    conta_cartao = models.ForeignKey(Clientes,on_delete=models.PROTECT)
 
     def __str__(self) -> str:
         return self.numero

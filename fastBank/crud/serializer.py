@@ -31,5 +31,5 @@ class TransferenciasSerializer(serializers.ModelSerializer):
 class CartaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cartao
-        fields = ['id', 'conta_cartao']
+        fields = ['id', 'conta_cartao','numero','cvv', 'validade']
         read_only_fields = ['numero', 'cvv', 'validade']
