@@ -7,25 +7,13 @@ import java.util.ArrayList;
 
 
 public class Aplicativo {
-
-
     CadastrarRestaurante restaurante2 = new CadastrarRestaurante();
     CadastroUsuario usuarios = new CadastroUsuario();
     EscolherUserRestaurante pedido2 = new EscolherUserRestaurante();
 
+    public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+    public static ArrayList<Restaurante> listaRestaurante = new ArrayList<>();
 
-
-    public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-    public ArrayList<Restaurante> listaRestaurante = new ArrayList<>();
-
-    public Aplicativo() {
-    }
-
-    public Aplicativo(ArrayList<Usuario> listaUsuarios, ArrayList<Restaurante> listaRestaurante){
-        this.listaUsuarios = listaUsuarios;
-        this.listaRestaurante = listaRestaurante;
-
-    }
 
     public void cadastrarUsuario() {
         Usuario usuario = new Usuario();
@@ -59,12 +47,24 @@ public class Aplicativo {
         return vazio;
     }
     public void menu(){
-
         Tela tela = new Tela();
         tela.setVisible(true);
         tela.getBotaoCadastrarRestaurante().addActionListener(e -> restaurante2.setVisible(true));
         tela.getBotaoCadastrarUsuario().addActionListener(e -> usuarios.setVisible(true));
-        tela.getBotaoFazerPedido().addActionListener(e -> pedido2.setVisible(true));
+        tela.getBotaoFazerPedido().addActionListener(e -> {
+            EscolherUserRestaurante.nomeUser.clear();
+            EscolherUserRestaurante.nomeRes.clear();
+            for (Usuario usuario : Aplicativo.listaUsuarios) {
+                EscolherUserRestaurante.nomeUser.add(usuario.getNome());
+            }
+            for (Restaurante restaurante : Aplicativo.listaRestaurante) {
+                EscolherUserRestaurante.nomeRes.add(restaurante.getNome());
+            }
+            System.out.println(EscolherUserRestaurante.nomeRes);
+            System.out.println(EscolherUserRestaurante.nomeUser);
+            pedido2.atualizarVetor();
+            pedido2.setVisible(true);
+        });
 
         usuarios.botaoCadastrar.addActionListener(e -> {
             cadastrarUsuario();
@@ -78,9 +78,6 @@ public class Aplicativo {
                 System.out.println(imprimirRestaurantes());
             }
         });
-
-
-
     }
 
 

@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CadastroUsuario extends JFrame {
-//    Aplicativo aplicativo = new Aplicativo();
     public JTextField campoNome;
     public JTextField campoCpf;
     public JTextField campoEndereco;
@@ -16,7 +15,7 @@ public class CadastroUsuario extends JFrame {
 
         Font fonte = new Font("Arial", Font.BOLD, 24);
 
-        campoNome = new JTextField(20);
+        campoNome = new JTextField();
         campoNome.setBounds(213, 190, 257, 43);
         campoNome.setBackground(new Color(52, 89, 68));
         campoNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));

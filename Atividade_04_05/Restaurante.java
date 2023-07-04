@@ -2,6 +2,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Restaurante {
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
     String nome;
     String cnpj;
     String localizacao;
@@ -34,10 +46,6 @@ public class Restaurante {
         int resposta = entrada.nextInt();
         cardapio.remove(resposta);
     }
-//    public Restaurante (String nome, String localizacao){
-//        this.nome = nome;
-//        this. localizacao= localizacao;
-//    }
 
 
 }
