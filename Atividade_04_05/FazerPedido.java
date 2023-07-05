@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class FazerPedido extends JFrame {
+
     public JButton botaoRealizaPedido;
     public static ArrayList<Lanche> lanche = new ArrayList<>();
-    public static ArrayList<String> nomeLanche= new ArrayList<>();
-
+    public static ArrayList<String> nomeLanche = new ArrayList<>();
+    public static ArrayList<Integer> precoLanches = new ArrayList<>();
 
     public FazerPedido() {
         setTitle("Fazer Pedidos");
@@ -18,7 +19,15 @@ public class FazerPedido extends JFrame {
 
         Font fonte = new Font("Arial", Font.BOLD, 24);
 
-        JTextField campoNome = new JTextField();
+        Lanche fileDeReal = new Lanche();
+
+
+        JTextArea campoNome = new JTextArea();
+        campoNome.setBounds(213, 190, 257, 43);
+        campoNome.setBackground(new Color(52, 89, 68));
+        campoNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
+        campoNome.setForeground(Color.GREEN);
+        campoNome.setFont(fonte);
 
 
         botaoRealizaPedido = new JButton();
@@ -48,8 +57,6 @@ public class FazerPedido extends JFrame {
         ImageIcon imagemFinal = new ImageIcon(imagemRedimensionada);
         JLabel labelImagem = new JLabel(imagemFinal);
         labelImagem.setBounds(0,  -20, 500, 500);
-
-
 
 
         getContentPane().add(botaoRealizaPedido);

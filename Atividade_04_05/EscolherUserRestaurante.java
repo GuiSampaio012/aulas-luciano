@@ -2,13 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class EscolherUserRestaurante extends JFrame {
 
-    private Vector<String> vetorCampoUSer = new Vector<>();
-    private Vector<String> vetorCampoRes = new Vector<>();
-    public static String EscolhaUser;
-    public static String EscolhaRes;
+    public Vector<String> vetorCampoUSer = new Vector<>();
+    public Vector<String> vetorCampoRes = new Vector<>();
+    public static String escolhaUser;
+    public static String escolhaRes;
     public JComboBox<String> campoUser;
     public JComboBox<String> campoRes;
     public JButton botaoEscolherRestUser;
@@ -36,10 +38,26 @@ public class EscolherUserRestaurante extends JFrame {
         campoUser = new JComboBox<String>(vetorCampoUSer);
         campoUser.setBounds(210, 200, 245, 35);
         campoUser.setFont(fonte);
+        campoUser.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) // para evitar duplicações
+                    System.out.println("Você escolheu a opção: " + e.getItem());
+                String teste = e.getItem().toString();
+                escolhaUser = teste;
+            }
+        });
 
         campoRes = new JComboBox<String>(vetorCampoRes);
         campoRes.setBounds(210, 323, 245, 35);
         campoRes.setFont(fonte);
+        campoRes.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) // para evitar duplicações
+                    System.out.println("Você escolheu a opção: " + e.getItem());
+                String teste = e.getItem().toString();
+                escolhaRes = teste;
+            }
+        });
 
         botaoEscolherRestUser = new JButton();
         botaoEscolherRestUser.setBounds(267, 400, 215, 52);
@@ -48,6 +66,10 @@ public class EscolherUserRestaurante extends JFrame {
         botaoEscolherRestUser.setOpaque(false);
         botaoEscolherRestUser.setContentAreaFilled(false);
         botaoEscolherRestUser.setBorderPainted(false);
+
+        escolhaRes = String.valueOf(campoRes.getSelectedItem());
+
+
 
         JButton botaoVoltar = new JButton();
         botaoVoltar.setBounds(35, 400, 215, 52);

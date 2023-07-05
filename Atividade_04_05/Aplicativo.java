@@ -62,8 +62,16 @@ public class Aplicativo {
             }
             System.out.println(EscolherUserRestaurante.nomeRes);
             System.out.println(EscolherUserRestaurante.nomeUser);
+            System.out.println(pedido2.campoUser.getSelectedItem());
             pedido2.atualizarVetor();
             pedido2.setVisible(true);
+        });
+
+        pedido2.botaoEscolherRestUser.addActionListener(e->{
+//            System.out.println("nome do usuário escolhido"+pedido2.campoUser.getSelectedItem());
+//            System.out.println("nome do restaurante escolhido"+pedido2.campoRes.getSelectedItem());
+            System.out.println("nome do usuário escolhido: "+EscolherUserRestaurante.escolhaUser);
+            System.out.println("nome do restaurante escolhido: "+EscolherUserRestaurante.escolhaRes);
         });
 
         usuarios.botaoCadastrar.addActionListener(e -> {
