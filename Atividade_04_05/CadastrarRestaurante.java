@@ -20,21 +20,21 @@ public class CadastrarRestaurante extends JFrame {
         Font fonte = new Font("Arial", Font.BOLD, 24);
 
 
-        campoNome = new JTextField(20);
+        campoNome = new JTextField();
         campoNome.setBounds(213, 190, 257, 43);
         campoNome.setBackground(new Color(52, 89, 68));
         campoNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
         campoNome.setForeground(Color.GREEN);
         campoNome.setFont(fonte);
 
-        campoEndereco = new JTextField(14);
+        campoEndereco = new JTextField();
         campoEndereco.setBounds(213, 261, 257, 43);
         campoEndereco.setBackground(new Color(52, 89, 68));
         campoEndereco.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
         campoEndereco.setForeground(Color.GREEN);
         campoEndereco.setFont(fonte);
 
-        campoCnpj = new JTextField(14);
+        campoCnpj = new JTextField();
         campoCnpj.setBounds(266, 333, 205, 43);
         campoCnpj.setBackground(new Color(52, 89, 68));
         campoCnpj.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));

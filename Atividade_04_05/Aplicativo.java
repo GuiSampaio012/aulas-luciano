@@ -3,16 +3,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 
 public class Aplicativo {
     CadastrarRestaurante restaurante2 = new CadastrarRestaurante();
+    static Lanche lanche10 = new Lanche(10,"filé");
     CadastroUsuario usuarios = new CadastroUsuario();
     EscolherUserRestaurante pedido2 = new EscolherUserRestaurante();
-
+    static Restaurante restaurante = new Restaurante("claudio batatas","38451961","rua da alvorada",  new ArrayList<Lanche>(Arrays.asList(lanche10)));
     public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-    public static ArrayList<Restaurante> listaRestaurante = new ArrayList<>();
+    public static ArrayList<Restaurante> listaRestaurante = new ArrayList<>(Arrays.asList(restaurante));
+    FazerPedido valorLanche = new FazerPedido();
 
 
     public void cadastrarUsuario() {
@@ -32,11 +35,35 @@ public class Aplicativo {
         return vazio;
     }
     public void cadastrarRestaurante(){
-        Restaurante restaurante = new Restaurante();
-        restaurante.nome = restaurante2.campoNome.getText();
-        restaurante.cnpj = restaurante2.campoCnpj.getText();
-        restaurante.localizacao = restaurante2.campoEndereco.getText();
-        listaRestaurante.add(restaurante);
+        Restaurante restaurante5 = new Restaurante();
+        Tela tela = new Tela();
+
+        restaurante5.nome = restaurante2.campoNome.getText();
+        restaurante5.cnpj = restaurante2.campoCnpj.getText();
+        restaurante5.localizacao = restaurante2.campoEndereco.getText();
+        valorLanche.setVisible(true);
+        cadastrarLanche(restaurante5);
+        restaurante2.dispose();
+        listaRestaurante.add(restaurante5);
+    }
+
+
+    public void cadastrarLanche(Restaurante res){
+        Lanche lanche8 = new Lanche();
+//        res.cardapio.clear();
+        System.out.println(res.cardapio);
+
+        valorLanche.botaoCriarLanche.addActionListener(e -> {
+            lanche8.nome = valorLanche.campoNomeLanche.getText();
+            lanche8.preco = Integer.parseInt(valorLanche.campoPreco.getText());
+
+            System.out.println(lanche8.getNome());
+            System.out.println(lanche8.getPreco());
+            res.cardapio.add(lanche8);
+
+        });
+        System.out.println("eis o cadastro");
+
     }
     public String imprimirRestaurantes(){
         String vazio = "";
@@ -47,17 +74,20 @@ public class Aplicativo {
         return vazio;
     }
     public void menu(){
+        //  chamando as telas
         Tela tela = new Tela();
         tela.setVisible(true);
         tela.getBotaoCadastrarRestaurante().addActionListener(e -> restaurante2.setVisible(true));
         tela.getBotaoCadastrarUsuario().addActionListener(e -> usuarios.setVisible(true));
+
+        //  dando valor para listas em outras telas
         tela.getBotaoFazerPedido().addActionListener(e -> {
             EscolherUserRestaurante.nomeUser.clear();
             EscolherUserRestaurante.nomeRes.clear();
             for (Usuario usuario : Aplicativo.listaUsuarios) {
                 EscolherUserRestaurante.nomeUser.add(usuario.getNome());
             }
-            for (Restaurante restaurante : Aplicativo.listaRestaurante) {
+            for (Restaurante restaurante : listaRestaurante) {
                 EscolherUserRestaurante.nomeRes.add(restaurante.getNome());
             }
             System.out.println(EscolherUserRestaurante.nomeRes);
@@ -67,11 +97,22 @@ public class Aplicativo {
             pedido2.setVisible(true);
         });
 
+
+//        Lanche lanche10 = new Lanche();
+
+
+
+        // criando funções para botões de outras telas
         pedido2.botaoEscolherRestUser.addActionListener(e->{
-//            System.out.println("nome do usuário escolhido"+pedido2.campoUser.getSelectedItem());
-//            System.out.println("nome do restaurante escolhido"+pedido2.campoRes.getSelectedItem());
             System.out.println("nome do usuário escolhido: "+EscolherUserRestaurante.escolhaUser);
             System.out.println("nome do restaurante escolhido: "+EscolherUserRestaurante.escolhaRes);
+            for (Restaurante restaurante5:listaRestaurante) {
+                if (restaurante5.getNome().equals(EscolherUserRestaurante.escolhaRes))
+                    for (Lanche lanche: restaurante5.cardapio) {
+                        System.out.println(lanche.nome);
+                    }
+
+            }
         });
 
         usuarios.botaoCadastrar.addActionListener(e -> {

@@ -74,6 +74,7 @@ public class EscolherUserRestaurante extends JFrame {
         JButton botaoVoltar = new JButton();
         botaoVoltar.setBounds(35, 400, 215, 52);
         botaoVoltar.setBackground(Color.GRAY);
+        botaoVoltar.addActionListener(e -> this.dispose());
 
 
         botaoVoltar.setOpaque(false);
@@ -87,9 +88,6 @@ public class EscolherUserRestaurante extends JFrame {
         JLabel labelImagem = new JLabel(imagemFinal);
         labelImagem.setBounds(0,  -20, 500, 500);
 
-
-
-        botaoVoltar.addActionListener(e -> this.dispose());
 
         getContentPane().add(campoUser);
         getContentPane().add(campoRes);

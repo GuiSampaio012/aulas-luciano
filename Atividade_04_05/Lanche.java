@@ -6,6 +6,14 @@ public class Lanche {
         return preco;
     }
 
+    public Lanche(int preco, String nome) {
+        this.preco = preco;
+        this.nome = nome;
+    }
+
+    public Lanche() {
+    }
+
     public String getNome() {
         return nome;
     }

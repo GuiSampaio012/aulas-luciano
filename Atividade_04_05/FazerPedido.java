@@ -1,14 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class FazerPedido extends JFrame {
+    public JTextField campoNomeLanche;
+    public JTextField campoPreco;
+    public JButton botaoCriarLanche;
 
-    public JButton botaoRealizaPedido;
-    public static ArrayList<Lanche> lanche = new ArrayList<>();
-    public static ArrayList<String> nomeLanche = new ArrayList<>();
-    public static ArrayList<Integer> precoLanches = new ArrayList<>();
+    // para iniciar array com valores, utilizar: Arrays.asList()
+    // exemplo: public ArrayList<Lanche> lanche = new ArrayList<>(Arrays.asList());
+
+
+//    public static ArrayList<String> nomeLanche = new ArrayList<>();
+//    public static ArrayList<Integer> precoLanches = new ArrayList<>();
 
     public FazerPedido() {
         setTitle("Fazer Pedidos");
@@ -19,25 +25,35 @@ public class FazerPedido extends JFrame {
 
         Font fonte = new Font("Arial", Font.BOLD, 24);
 
-        Lanche fileDeReal = new Lanche();
+
+        campoNomeLanche = new JTextField();
+        campoNomeLanche.setBounds(213, 190, 257, 43);
+        campoNomeLanche.setBackground(new Color(52, 89, 68));
+        campoNomeLanche.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
+        campoNomeLanche.setForeground(Color.GREEN);
+        campoNomeLanche.setFont(fonte);
+
+        campoPreco = new JTextField();
+        campoPreco.setBounds(213, 261, 257, 43);
+        campoPreco.setBackground(new Color(52, 89, 68));
+        campoPreco.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
+        campoPreco.setForeground(Color.GREEN);
+        campoPreco.setFont(fonte);
 
 
-        JTextArea campoNome = new JTextArea();
-        campoNome.setBounds(213, 190, 257, 43);
-        campoNome.setBackground(new Color(52, 89, 68));
-        campoNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
-        campoNome.setForeground(Color.GREEN);
-        campoNome.setFont(fonte);
+        System.out.println(campoPreco.getText());
 
 
-        botaoRealizaPedido = new JButton();
-        botaoRealizaPedido.setBounds(267, 400, 215, 52);
-        botaoRealizaPedido.setBackground(Color.BLACK);
 
-        botaoRealizaPedido.setOpaque(false);
-        botaoRealizaPedido.setContentAreaFilled(false);
-        botaoRealizaPedido.setBorderPainted(false);
-        botaoRealizaPedido.addActionListener(e -> {
+        botaoCriarLanche = new JButton();
+        botaoCriarLanche.setBounds(267, 400, 215, 52);
+        botaoCriarLanche.setBackground(Color.BLACK);
+
+//        botaoRealizaPedido.setOpaque(false);
+//        botaoRealizaPedido.setContentAreaFilled(false);
+//        botaoRealizaPedido.setBorderPainted(false);
+        botaoCriarLanche.addActionListener(e -> {
+
 
         });
 
@@ -58,8 +74,9 @@ public class FazerPedido extends JFrame {
         JLabel labelImagem = new JLabel(imagemFinal);
         labelImagem.setBounds(0,  -20, 500, 500);
 
-
-        getContentPane().add(botaoRealizaPedido);
+        getContentPane().add(campoNomeLanche);
+        getContentPane().add(campoPreco);
+        getContentPane().add(botaoCriarLanche);
         getContentPane().add(botaoVoltar);
 //        getContentPane().add(labelImagem);
 

@@ -23,7 +23,7 @@ public class CadastroUsuario extends JFrame {
         campoNome.setFont(fonte);
 
 
-        campoCpf = new JTextField(14);
+        campoCpf = new JTextField();
         campoCpf.setBounds(213, 261, 257, 43);
         campoCpf.setBackground(new Color(52, 89, 68));
         campoCpf.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
@@ -31,7 +31,7 @@ public class CadastroUsuario extends JFrame {
         campoCpf.setFont(fonte);
 
 
-        campoEndereco = new JTextField(14);
+        campoEndereco = new JTextField();
         campoEndereco.setBounds(266, 333, 205, 43);
         campoEndereco.setBackground(new Color(52, 89, 68));
         campoEndereco.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));

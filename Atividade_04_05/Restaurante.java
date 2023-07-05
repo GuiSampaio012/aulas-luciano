@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Restaurante {
+    String nome;
+    String cnpj;
+    String localizacao;
+    public ArrayList <Lanche> cardapio = new ArrayList<>();
     public String getNome() {
         return nome;
     }
@@ -14,10 +18,20 @@ public class Restaurante {
         return localizacao;
     }
 
-    String nome;
-    String cnpj;
-    String localizacao;
-    ArrayList <Lanche> cardapio = new ArrayList<>();
+
+    public Restaurante() {
+    }
+    public Restaurante(String nome, String cnpj, String localizacao) {
+        this.nome = nome;
+        this.cnpj = cnpj;
+        this.localizacao = localizacao;
+    }
+    public Restaurante(String nome, String cnpj, String localizacao, ArrayList<Lanche> cardapio) {
+        this.nome = nome;
+        this.cnpj = cnpj;
+        this.localizacao = localizacao;
+        this.cardapio = cardapio;
+    }
 
     public void imprimirCardapio(){
         String vazio = "";
