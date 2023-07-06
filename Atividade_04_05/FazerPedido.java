@@ -45,30 +45,27 @@ public class FazerPedido extends JFrame {
 
 
 
-        botaoCriarLanche = new JButton();
-        botaoCriarLanche.setBounds(267, 400, 215, 52);
-        botaoCriarLanche.setBackground(Color.BLACK);
+        botaoCriarLanche = new JButton("Cadastrar Lanche");
+        botaoCriarLanche.setBounds(260, 400, 215, 52);
+        botaoCriarLanche.setBackground(Color.WHITE);
 
 //        botaoRealizaPedido.setOpaque(false);
 //        botaoRealizaPedido.setContentAreaFilled(false);
 //        botaoRealizaPedido.setBorderPainted(false);
-        botaoCriarLanche.addActionListener(e -> {
 
 
-        });
-
-        JButton botaoVoltar = new JButton();
-        botaoVoltar.setBounds(35, 400, 215, 52);
-        botaoVoltar.setBackground(Color.GRAY);
+        JButton botaoVoltar = new JButton("Voltar");
+        botaoVoltar.setBounds(15, 400, 215, 52);
+        botaoVoltar.setBackground(Color.WHITE);
 
 
-        botaoVoltar.setOpaque(false);
-        botaoVoltar.setContentAreaFilled(false);
-        botaoVoltar.setBorderPainted(false);
+//        botaoVoltar.setOpaque(false);
+//        botaoVoltar.setContentAreaFilled(false);
+//        botaoVoltar.setBorderPainted(false);
         botaoVoltar.addActionListener(e -> this.dispose());
 
 
-        ImageIcon imagem = new ImageIcon("telas_restaurante/escolher_user_restaurante.png");
+        ImageIcon imagem = new ImageIcon("telas_restaurante/cadastrar_produto.png");
         Image imagemRedimensionada = imagem.getImage().getScaledInstance(500, 490, Image.SCALE_DEFAULT);
         ImageIcon imagemFinal = new ImageIcon(imagemRedimensionada);
         JLabel labelImagem = new JLabel(imagemFinal);
@@ -78,7 +75,7 @@ public class FazerPedido extends JFrame {
         getContentPane().add(campoPreco);
         getContentPane().add(botaoCriarLanche);
         getContentPane().add(botaoVoltar);
-//        getContentPane().add(labelImagem);
+        getContentPane().add(labelImagem);
 
         this.setVisible(false);
 

@@ -25,7 +25,6 @@ public class Aplicativo {
         usuario.endereco = usuarios.campoEndereco.getText();
         listaUsuarios.add(usuario);
     }
-
     public String imprimirUsuarios (){
         String vazio = "";
         for (Usuario usuario : listaUsuarios) {
@@ -34,6 +33,7 @@ public class Aplicativo {
 
         return vazio;
     }
+
     public void cadastrarRestaurante(){
         Restaurante restaurante5 = new Restaurante();
         Tela tela = new Tela();
@@ -41,29 +41,28 @@ public class Aplicativo {
         restaurante5.nome = restaurante2.campoNome.getText();
         restaurante5.cnpj = restaurante2.campoCnpj.getText();
         restaurante5.localizacao = restaurante2.campoEndereco.getText();
-        valorLanche.setVisible(true);
-        cadastrarLanche(restaurante5);
-        restaurante2.dispose();
+        System.out.println(imprimirUsuarios());
+        valorLanche.botaoCriarLanche.addActionListener(e->{
+            cadastrarLanche(restaurante5);
+        });
         listaRestaurante.add(restaurante5);
     }
 
-
     public void cadastrarLanche(Restaurante res){
+        valorLanche.setVisible(true);
+        restaurante2.dispose();
         Lanche lanche8 = new Lanche();
 //        res.cardapio.clear();
-        System.out.println(res.cardapio);
 
-        valorLanche.botaoCriarLanche.addActionListener(e -> {
-            lanche8.nome = valorLanche.campoNomeLanche.getText();
-            lanche8.preco = Integer.parseInt(valorLanche.campoPreco.getText());
+        lanche8.nome = valorLanche.campoNomeLanche.getText();
+        lanche8.preco = Integer.parseInt(valorLanche.campoPreco.getText());
 
-            System.out.println(lanche8.getNome());
-            System.out.println(lanche8.getPreco());
-            res.cardapio.add(lanche8);
-
-        });
+        System.out.println(lanche8.getNome());
+        System.out.println(lanche8.getPreco());
+        res.cardapio.add(lanche8);
         System.out.println("eis o cadastro");
-
+        System.out.println(res.cardapio);
+        System.out.println(restaurante.cardapio);
     }
     public String imprimirRestaurantes(){
         String vazio = "";
@@ -73,6 +72,7 @@ public class Aplicativo {
 
         return vazio;
     }
+
     public void menu(){
         //  chamando as telas
         Tela tela = new Tela();
@@ -98,11 +98,9 @@ public class Aplicativo {
         });
 
 
-//        Lanche lanche10 = new Lanche();
-
-
 
         // criando funções para botões de outras telas
+
         pedido2.botaoEscolherRestUser.addActionListener(e->{
             System.out.println("nome do usuário escolhido: "+EscolherUserRestaurante.escolhaUser);
             System.out.println("nome do restaurante escolhido: "+EscolherUserRestaurante.escolhaRes);
@@ -115,15 +113,20 @@ public class Aplicativo {
             }
         });
 
+//        valorLanche.botaoCriarLanche.addActionListener(e->{
+//            cadastrarRestaurante();
+//        });
+
         usuarios.botaoCadastrar.addActionListener(e -> {
             cadastrarUsuario();
-            System.out.println(imprimirUsuarios());
         });
 
         restaurante2.botaoCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cadastrarRestaurante();
+                restaurante2.dispose();
+                valorLanche.setVisible(true);
                 System.out.println(imprimirRestaurantes());
             }
         });
